@@ -141,7 +141,7 @@ export default function cavemanExtension(pi: ExtensionAPI) {
 			);
 			return items.length > 0 ? items : null;
 		},
-		handler: (args, ctx) => {
+		handler: async (args, ctx) => {
 			const nextMode = normalizeMode(args);
 			if (!nextMode) {
 				ctx.ui.notify(`Unknown caveman mode: ${args || "(empty)"}`, "error");
@@ -157,7 +157,7 @@ export default function cavemanExtension(pi: ExtensionAPI) {
 
 	pi.registerCommand("caveman-help", {
 		description: "Show caveman command reference",
-		handler: () => {
+		handler: async () => {
 			pi.sendMessage({
 				customType: "caveman-help",
 				content: HELP_TEXT,
@@ -168,7 +168,7 @@ export default function cavemanExtension(pi: ExtensionAPI) {
 
 	pi.registerCommand("caveman-commit", {
 		description: "Generate terse Conventional Commit message",
-		handler: (args) => {
+		handler: async (args) => {
 			const task =
 				args?.trim() ||
 				"Generate a commit message for current repository changes. Inspect git status and diffs as needed. Do not run git commit.";
@@ -178,7 +178,7 @@ export default function cavemanExtension(pi: ExtensionAPI) {
 
 	pi.registerCommand("caveman-review", {
 		description: "Generate terse code-review comments",
-		handler: (args) => {
+		handler: async (args) => {
 			const task =
 				args?.trim() ||
 				"Review current repository changes or PR diff. Inspect git diff as needed. Findings only.";
@@ -188,7 +188,7 @@ export default function cavemanExtension(pi: ExtensionAPI) {
 
 	pi.registerCommand("caveman-compress", {
 		description: "Compress prose/memory file into caveman style",
-		handler: (args, ctx) => {
+		handler: async (args, ctx) => {
 			const target = args?.trim();
 			if (!target) {
 				ctx.ui.notify("Usage: /caveman-compress <file>", "error");
@@ -200,7 +200,7 @@ export default function cavemanExtension(pi: ExtensionAPI) {
 
 	pi.registerCommand("caveman-stats", {
 		description: "Show caveman stats skill/help",
-		handler: (args) => {
+		handler: async (args) => {
 			pi.sendUserMessage(
 				`/skill:caveman-stats ${args?.trim() || "Show caveman stats if available."}`,
 			);

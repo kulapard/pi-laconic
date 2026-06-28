@@ -100,11 +100,11 @@
 - Create: `/Users/kulapard/projects/pi-caveman/tsconfig.json`
 - Modify: `/Users/kulapard/projects/pi-caveman/extensions/caveman.ts` (only if typecheck surfaces errors)
 
-- [ ] add `tsconfig.json` (module `nodenext`, `noEmit`, `strict`, include `extensions/**/*.ts`)
-- [ ] run `npm run typecheck` — capture any type errors against the real SDK types (this is the RED state if errors exist)
-- [ ] fix any type errors in `caveman.ts` (keep behavior identical)
-- [ ] add a test/CI assertion that `tsc --noEmit` exits 0 (wire into `npm test` or a `pretest`)
-- [ ] run `npm run typecheck` — verify GREEN
+- [x] add `tsconfig.json` (module `nodenext`, `noEmit`, `strict`, include `extensions/**/*.ts`) — done: created `tsconfig.json` with `module`/`moduleResolution` `nodenext`, `target es2022`, `strict`, `noEmit`, `skipLibCheck` (SDK ships internal `.ts` import specifiers resolved via its own `.d.ts`), `include: ["extensions/**/*.ts"]`
+- [x] run `npm run typecheck` — capture any type errors against the real SDK types (this is the RED state if errors exist) — done: RED — 6× TS2322 errors, all the same shape: `registerCommand` handlers `(args, ctx) => void` not assignable to SDK's `handler: (args, ctx) => Promise<void>` (caveman.ts lines 144/160/171/181/191/203)
+- [x] fix any type errors in `caveman.ts` (keep behavior identical) — done: made all 6 command handlers `async` (an async fn with no `await` returns `Promise<void>`; Pi already awaits the returned promise, so runtime behavior, all 6 modes, and logic are identical). No value-import added; SDK import stays type-only.
+- [x] add a test/CI assertion that `tsc --noEmit` exits 0 (wire into `npm test` or a `pretest`) — done: added `"pretest": "npm run typecheck"` to package.json scripts. npm runs `pretest` automatically before `test`, so `npm test` now fails if typecheck fails. Left `test`/`typecheck` script *values* unchanged so the Task-2 manifest test (exact-string asserts) still passes.
+- [x] run `npm run typecheck` — verify GREEN — done: `npm run typecheck` exits 0; `npm test` runs pretest (typecheck exit 0) then 7/7 manifest tests pass
 
 ### Task 4: Make extension logic testable + unit tests
 
