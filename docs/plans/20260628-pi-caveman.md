@@ -180,11 +180,11 @@
 - Create: `/Users/kulapard/projects/pi-caveman/install.sh` (if a script is warranted beyond `pi -e`)
 - Create: `/Users/kulapard/projects/pi-caveman/tests/readme.test.mjs`
 
-- [ ] write a failing test asserting `README.md` exists and contains a few **load-bearing** strings only (keep it non-brittle): the Task-1-confirmed install command, the mode names, and the `/caveman` command — not full prose
-- [ ] run test — verify RED
-- [ ] author `README.md`; add `install.sh` only if Task 1 showed Pi needs more than `pi -e <path>` (idempotent; prints the activation line)
-- [ ] `git init`, add a sensible first commit (normal commit message; not in caveman style)
-- [ ] run test — verify GREEN
+- [x] write a failing test asserting `README.md` exists and contains a few **load-bearing** strings only (keep it non-brittle): the Task-1-confirmed install command, the mode names, and the `/caveman` command — not full prose — done: `tests/readme.test.mjs` (4 tests) asserts README exists and contains `pi -e`, the mode names (`lite`/`full`/`ultra`/`wenyan`), and `/caveman`; no prose asserted
+- [x] run test — verify RED — done: RED was `ENOENT` on `README.md` (file did not exist) for all four assertions
+- [x] author `README.md`; add `install.sh` only if Task 1 showed Pi needs more than `pi -e <path>` (idempotent; prints the activation line) — done: authored root `README.md` (what pi-caveman is, `pi -e` + package `pi`-block install with the no-origin-remote/local-package note, six modes, all commands, natural-language activation/deactivation, session-scoped reset behavior, `caveman:<mode>` statusline, the Task-7 MCP-shrink-out-of-scope / compress-is-the-Claude-bound-Pi-equivalent position from audit §12, upstream JuliusBrussee/caveman attribution, MIT). **No `install.sh` created** — Task 1 (audit §2/§9) confirmed `pi -e <file>` is sufficient; a config-editing installer is unwarranted, so the optional checkbox does not apply. No phantom features documented (no hooks, no ⛏ badge, no token tracking)
+- [x] `git init`, add a sensible first commit (normal commit message; not in caveman style) — repo already initialized (done in setup): `git status` works on branch `pi-caveman`; not re-running `git init`/reset. First commit is the normal-style commit made by this task
+- [x] run test — verify GREEN — done: `npm test` → pretest typecheck exit 0, then 50/50 pass (4 new readme + 46 existing)
 
 ### Task 10: Verify acceptance criteria
 - [ ] verify every Acceptance Criterion is met (manifest, typecheck, tests, reconciled features, verbatim preservation, README, git)

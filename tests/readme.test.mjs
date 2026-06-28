@@ -1,0 +1,36 @@
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { existsSync, readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const repoRoot = join(__dirname, "..");
+const readmePath = join(repoRoot, "README.md");
+
+test("root README.md exists", () => {
+	assert.ok(existsSync(readmePath), "README.md must exist at the repo root");
+});
+
+test("README documents the confirmed `pi -e` install mechanism", () => {
+	const readme = readFileSync(readmePath, "utf8");
+	assert.ok(
+		readme.includes("pi -e"),
+		"README must document the `pi -e` load mechanism confirmed in Task 1",
+	);
+});
+
+test("README lists the six intensity modes", () => {
+	const readme = readFileSync(readmePath, "utf8").toLowerCase();
+	for (const mode of ["lite", "full", "ultra", "wenyan"]) {
+		assert.ok(readme.includes(mode), `README must mention the "${mode}" mode`);
+	}
+});
+
+test("README documents the /caveman command", () => {
+	const readme = readFileSync(readmePath, "utf8");
+	assert.ok(
+		readme.includes("/caveman"),
+		"README must document the /caveman command",
+	);
+});
