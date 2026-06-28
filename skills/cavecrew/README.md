@@ -2,9 +2,17 @@
 
 Decision guide. When to delegate to caveman subagents instead of doing the work inline.
 
+> ⚠️ **Optional — requires an external Pi subagent capability.** Pi 0.80.2 has
+> **no subagent / `agents/` preset mechanism**, so cavecrew is **not wired into
+> this package**. The three `agents/cavecrew-*.md` files are reference personas
+> (the prompts you would hand a delegated agent), kept as design notes / future
+> work. They become usable only if a Pi subagent capability lands — e.g. a
+> `pi-subagents`-style package that can spawn an agent and inject its compressed
+> tool-result back into main context. Pi core does not provide that today.
+
 ## What it does
 
-Tells the main thread when to spawn a caveman-style subagent versus the vanilla equivalent. The win: subagent tool-results inject back into main context verbatim, and caveman output is roughly 1/3 the size of vanilla prose. Across 20 delegations in one session, that is the difference between context exhaustion and finishing the task.
+Tells the main thread when to delegate to a caveman-style subagent versus a plain (uncompressed) prose agent. The win: subagent tool-results inject back into main context verbatim, and caveman output is roughly 1/3 the size of prose. Across 20 delegations in one session, that is the difference between context exhaustion and finishing the task.
 
 Three subagents:
 
@@ -14,7 +22,7 @@ Three subagents:
 | `cavecrew-builder` | Surgical edit, 1-2 files | Scope is obvious, ≤2 files. Refuses 3+ file scope. |
 | `cavecrew-reviewer` | Diff/file review | One-line findings with severity emoji |
 
-Use vanilla `Explore` or `Code Reviewer` when you want prose, architecture commentary, or rationale. Use main thread directly for one-line answers and 3+ file refactors.
+Use a plain (uncompressed) prose agent when you want prose, architecture commentary, or rationale. Use main thread directly for one-line answers and 3+ file refactors.
 
 This skill is a decision guide, not a slash command. It activates when the conversation mentions delegation.
 

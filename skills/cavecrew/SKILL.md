@@ -2,34 +2,43 @@
 name: cavecrew
 description: >
   Decision guide for delegating to caveman-style subagents. Tells the main
-  thread WHEN to spawn `cavecrew-investigator` (locate code), `cavecrew-builder`
+  thread WHEN to delegate to `cavecrew-investigator` (locate code), `cavecrew-builder`
   (1-2 file edit), or `cavecrew-reviewer` (diff review) instead of doing the
-  work inline or using vanilla `Explore`. Subagent output is caveman-compressed
-  so the tool-result injected back into main context is ~60% smaller — main
-  context lasts longer across long sessions.
+  work inline or delegating with a plain (uncompressed) prose agent. Subagent
+  output is caveman-compressed so the tool-result injected back into main
+  context is ~60% smaller — main context lasts longer across long sessions.
   Trigger: "delegate to subagent", "use cavecrew", "spawn investigator/builder/reviewer",
   "save context", "compressed agent output".
 ---
 
-Cavecrew = three subagent presets that emit caveman output. Same job as Anthropic defaults (`Explore`, edit-style agents, reviewer); difference is the tool-result they return is compressed, so main context shrinks per delegation.
+> ⚠️ **Optional — requires an external Pi subagent capability.** Pi 0.80.2 ships
+> no subagent / `agents/` preset mechanism, so cavecrew is **not wired into this
+> package**. The three `agents/cavecrew-*.md` files are reference personas: the
+> prompts you would hand a delegated agent. They become usable only if a Pi
+> subagent capability exists (e.g. a future `pi-subagents`-style package) that
+> can spawn an agent and inject its compressed tool-result back into main
+> context. Until then, treat this skill as design notes. See
+> [`README.md`](./README.md).
+
+Cavecrew = three subagent personas that emit caveman output. Same jobs a delegated agent would do (locate, edit, review); the difference is the tool-result they return is compressed, so main context shrinks per delegation.
 
 ## When to use cavecrew vs alternatives
 
 | Task | Use |
 |---|---|
 | "Where is X defined / what calls Y / list uses of Z" | `cavecrew-investigator` |
-| Same but you also want suggestions/architecture commentary | `Explore` (vanilla) |
+| Same but you also want suggestions/architecture commentary | A plain prose locate agent |
 | Surgical edit, ≤2 files, scope obvious | `cavecrew-builder` |
-| New feature / 3+ files / cross-cutting refactor | Main thread or `feature-dev:code-architect` |
+| New feature / 3+ files / cross-cutting refactor | Main thread or a plain architect agent |
 | Review diff, branch, or file for bugs | `cavecrew-reviewer` |
-| Deep code review with rationale + alternatives | `Code Reviewer` (vanilla) |
+| Deep code review with rationale + alternatives | A plain prose review agent |
 | One-line answer you already know | Main thread, no subagent |
 
-Rule of thumb: **if you'd want the subagent's output in 1/3 the tokens, pick cavecrew. If you'd want prose, pick vanilla.**
+Rule of thumb: **if you'd want the subagent's output in 1/3 the tokens, pick cavecrew. If you'd want prose, pick a plain (uncompressed) agent.**
 
 ## Why this exists (the real win)
 
-Subagent tool results get injected into main context verbatim. A vanilla `Explore` that returns 2k tokens of prose costs 2k tokens of main-context budget every time. The same finding from `cavecrew-investigator` returns ~700 tokens. Across 20 delegations in one session that's the difference between context exhaustion and finishing the task.
+Subagent tool results get injected into main context verbatim. A plain prose locate agent that returns 2k tokens of prose costs 2k tokens of main-context budget every time. The same finding from `cavecrew-investigator` returns ~700 tokens. Across 20 delegations in one session that's the difference between context exhaustion and finishing the task.
 
 ## Output contracts
 
@@ -74,7 +83,7 @@ Skip investigator. Hand exact path:line to `cavecrew-builder` directly.
 
 - Don't use `cavecrew-builder` when you don't already know the file. Spawn investigator first or main thread will eat tokens passing context.
 - Don't chain `cavecrew-investigator → cavecrew-builder` for a 5-file refactor. Builder will return `too-big.` and you'll have wasted a turn.
-- Don't ask `cavecrew-reviewer` for "general feedback" — it returns findings only, no architecture opinions. Use `Code Reviewer` for that.
+- Don't ask `cavecrew-reviewer` for "general feedback" — it returns findings only, no architecture opinions. Use a plain prose review agent for that.
 - Don't expect prose. Cavecrew output is structured, sometimes terse to the point of cryptic. If a human will read it directly, paraphrase.
 
 ## Auto-clarity (inherited)
