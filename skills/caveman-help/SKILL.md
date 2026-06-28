@@ -40,23 +40,11 @@ Say "stop caveman" or "normal mode". Resume anytime with `/caveman`.
 
 Keep user's language by default. User write Portuguese → reply Portuguese caveman. Compress the style, not the language. Technical terms, code, commands, commit types, and exact error strings stay verbatim unless user ask for translation.
 
-## Configure Default Mode
+## Mode lasts the session
 
-Default mode = `full`. Change it:
+`/caveman` (no argument) = `full`. Pick another with `/caveman ultra`, `/caveman lite`, etc.
 
-**Environment variable** (highest priority):
-```bash
-export CAVEMAN_DEFAULT_MODE=ultra
-```
-
-**Config file** (`~/.config/caveman/config.json`):
-```json
-{ "defaultMode": "lite" }
-```
-
-Set `"off"` to disable auto-activation on session start. User can still activate manually with `/caveman`.
-
-Resolution: env var > config file > `full`.
+Mode set per session. New session start → mode `off`; activate again with `/caveman`. No config file, no env var — the `/caveman` command is the only switch.
 
 ## More
 
