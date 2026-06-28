@@ -239,3 +239,29 @@ PI_CODING_AGENT_DIR=~/.pi/agent-base command pi -e /Users/kulapard/projects/pi-c
 # /caveman-help ; /caveman ultra ; ask something ; "stop caveman" ; open new session → expect off
 # /caveman-compress <a markdown file> → confirm code/URLs/paths verbatim
 ```
+
+---
+
+## 11. Task 5 — Python test setup (pytest install command)
+
+`pytest` was NOT installed. Installed into an isolated repo-root venv. The
+project pip config points at the ANNA Nexus mirror (`nexus.infra.anna.money`),
+which timed out; installing from the public PyPI index directly succeeded:
+
+```
+python3 -m venv .venv
+.venv/bin/pip install --no-cache-dir --isolated --index-url https://pypi.org/simple pytest
+```
+
+`.venv/` and `.pytest_cache/` are gitignored. Run the suite with:
+
+```
+.venv/bin/pytest skills/caveman-compress        # plan's test:py command
+```
+
+A real bug surfaced and was fixed in `detect.py`: a bare `.env` file has an
+empty `Path.suffix`, so the `SKIP_EXTENSIONS` (`.env`) check never matched and
+`detect_file_type` content-sniffed it as `natural_language` (→ `should_compress`
+True). Now leading-dot files whose full name is a known skip/config name are
+classified by filename first, so `.env` → `config`. (`compress_file` already had
+a second safety net via `is_sensitive_path`, which still refuses `.env`.)

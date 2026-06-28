@@ -73,8 +73,17 @@ def detect_file_type(filepath: Path) -> str:
     if ext in SKIP_EXTENSIONS:
         return "code" if ext not in {".json", ".yaml", ".yml", ".toml", ".ini", ".cfg", ".env"} else "config"
 
-    # Extensionless files (like CLAUDE.md, TODO) — check content
+    # Extensionless files (like CLAUDE.md, TODO) — check content.
     if not ext:
+        # Leading-dot config/skip files (e.g. ".env") have an empty suffix, so
+        # the SKIP_EXTENSIONS check above never matched them and they would be
+        # content-sniffed as natural language. Classify them by full filename
+        # first so a bare ".env" is treated as config like ".env.local" would
+        # be — and never offered up for compression to a third-party API.
+        name = filepath.name.lower()
+        if name in SKIP_EXTENSIONS:
+            return "code" if name not in {".json", ".yaml", ".yml", ".toml", ".ini", ".cfg", ".env"} else "config"
+
         try:
             text = filepath.read_text(errors="ignore")
         except (OSError, PermissionError):
