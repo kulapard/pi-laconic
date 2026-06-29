@@ -134,7 +134,7 @@ export default function cavemanExtension(pi: ExtensionAPI) {
 
 	pi.on("input", (event, ctx) => {
 		if (event.source === "extension") return { action: "continue" as const };
-		const text = event.text.trim();
+		const text = (event.text ?? "").trim();
 		if (DEACTIVATION_RE.test(text)) {
 			if (mode !== "off") persistMode("off", ctx);
 			return { action: "continue" as const };
