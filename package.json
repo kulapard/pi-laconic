@@ -45,7 +45,8 @@
     "pretest": "npm run typecheck",
     "test": "node --experimental-strip-types --test tests/**/*.test.mjs",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "npm test"
+    "prepublishOnly": "npm test",
+    "changelog:check": "node scripts/check-changelog.mjs --base origin/master"
   },
   "devDependencies": {
     "@earendil-works/pi-coding-agent": "^0.80.2",

@@ -30,12 +30,18 @@ Project memory for agents working in this repo. Non-obvious conventions only.
 - **Verbatim preservation**: caveman-compress never alters code blocks, inline
   code, URLs, file paths, commands, or exact error strings. The skill instructs
   the agent to self-validate these against the original and, on any mismatch it
-  cannot fix, restore from the `.original` backup rather than leave a corrupted file.
+  cannot fix, restore from the `.original` backup that was created during the
+  same invocation (stale backups are rejected before compression starts).
 - `caveman-compress` is **prompt-only**: the Pi agent performs the compression
   with its own model and file tools, driven by `SKILL.md`. There is no Python and
   no external model CLI; coverage is the doc-guard test `tests/compress-docs.test.mjs`.
 
-## Tests / validation
+## Changelog
+
+Every notable change must update `CHANGELOG.md` under `[Unreleased]`. Before
+finishing a task, run `npm run changelog:check` to confirm the changelog was
+updated for the files you changed. CI also runs this check on every pull
+request.
 
 - `npm test` runs `pretest` (`npm run typecheck` → `tsc --noEmit`) first, then the
   `node --test` suites under `tests/`. Typecheck failures fail the test run.

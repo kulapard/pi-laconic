@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `caveman-compress` no longer restores from a potentially stale `.original`
+  backup on validation failure; it now aborts if a backup already exists and
+  only restores from the backup created during the same invocation.
+- `caveman-compress` README clarified: users should edit the source file and
+  remove/rename the old `.original` backup before re-compressing; extensionless
+  files now have an explicit `.original` backup rule.
+- Extension command handler tests now `await` async handlers, preventing false
+  greens if handlers become asynchronous.
+
+### Changed
+
+- Workflow test now matches the actual `run: npm publish` step instead of any
+  `npm publish` substring.
+
+### Added
+
+- `scripts/check-changelog.mjs` and a CI check (`npm run changelog:check`)
+  enforce that `CHANGELOG.md` is updated for any notable file change; the
+  project convention also instructs agents to update the changelog under
+  `[Unreleased]`.
+
 ## [0.3.0] - 2026-06-29
 
 ### Fixed
