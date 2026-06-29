@@ -19,7 +19,10 @@
     "extensions",
     "skills",
     "agents",
-    "AGENTS.md"
+    "AGENTS.md",
+    "!**/__pycache__",
+    "!**/*.pyc",
+    "!skills/**/tests"
   ],
   "engines": {
     "node": ">=18"

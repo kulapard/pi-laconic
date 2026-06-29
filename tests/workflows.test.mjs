@@ -38,17 +38,45 @@ test("publish workflow exists", () => {
 test("publish workflow triggers on version tags and publishes", () => {
 	const pub = readWorkflow("publish.yml");
 	assert.match(pub, /tags:/, "must trigger on tags");
-	assert.match(pub, /v\*/, "must match v* tags");
+	assert.match(pub, /v\[0-9\]\*/, "must trigger on semver-style v tags");
 	assert.match(pub, /npm publish/, "must run npm publish");
 	assert.match(pub, /node-version:\s*['"]?24['"]?/, "publish must use Node 24");
+	// Load-bearing OIDC publish steps — deleting either silently breaks publish.
+	assert.match(
+		pub,
+		/registry-url:/,
+		"must set registry-url for OIDC token exchange",
+	);
+	assert.match(
+		pub,
+		/npm install -g npm@latest/,
+		"must upgrade npm (>= 11.5.1 required for Trusted Publishing)",
+	);
+});
+
+test("publish workflow guards against mismatched and duplicate publishes", () => {
+	const pub = readWorkflow("publish.yml");
+	assert.match(
+		pub,
+		/concurrency:/,
+		"must declare a concurrency group so two tags can't publish at once",
+	);
+	assert.match(
+		pub,
+		/Verify tag matches package\.json version/,
+		"must verify the pushed tag matches package.json version before publishing",
+	);
 });
 
 test("publish workflow uses Trusted Publishing, not tokens", () => {
 	const pub = readWorkflow("publish.yml");
+	// Scope the check to the publish job — not merely "appears somewhere" —
+	// so moving id-token to the top level (which would grant it to every job)
+	// is caught.
 	assert.match(
 		pub,
-		/id-token:\s*write/,
-		"must request the OIDC id-token permission",
+		/publish:[\s\S]*permissions:[\s\S]*id-token:\s*write/,
+		"id-token: write must be scoped to the publish job",
 	);
 	assert.doesNotMatch(
 		pub,
