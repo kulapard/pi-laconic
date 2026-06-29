@@ -19,7 +19,8 @@
     "extensions",
     "skills",
     "agents",
-    "AGENTS.md"
+    "AGENTS.md",
+    "CHANGELOG.md"
   ],
   "engines": {
     "node": ">=18"
