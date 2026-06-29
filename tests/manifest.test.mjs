@@ -15,7 +15,11 @@ function readManifest() {
 test("package.json is valid JSON and identifies the package", () => {
 	const pkg = readManifest();
 	assert.equal(pkg.name, "@kulapard/pi-caveman");
-	assert.equal(pkg.version, "0.1.0");
+	assert.match(
+		pkg.version,
+		/^\d+\.\d+\.\d+$/,
+		"version must be valid semver",
+	);
 	assert.equal(pkg.license, "MIT");
 });
 
