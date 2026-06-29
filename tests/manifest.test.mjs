@@ -82,7 +82,7 @@ test("devDependencies pin the Pi SDK and TypeScript", () => {
 	assert.equal(pkg.devDependencies.typescript, "^5");
 });
 
-test("scripts wire up test, typecheck, and test:py", () => {
+test("scripts wire up test and typecheck", () => {
 	const pkg = readManifest();
 	assert.ok(pkg.scripts, "scripts must exist");
 	// Substring (not exact-string) checks so the script wording can evolve
@@ -102,14 +102,9 @@ test("scripts wire up test, typecheck, and test:py", () => {
 		/tsc --noEmit/,
 		"typecheck script must run tsc --noEmit",
 	);
-	assert.match(
+	assert.equal(
 		pkg.scripts["test:py"],
-		/pytest/,
-		"test:py script must invoke pytest",
-	);
-	assert.match(
-		pkg.scripts["test:py"],
-		/skills\/caveman-compress/,
-		"test:py must target the caveman-compress suite",
+		undefined,
+		"caveman-compress is prompt-only — there is no Python test script",
 	);
 });

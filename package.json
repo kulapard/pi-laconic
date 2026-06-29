@@ -19,10 +19,7 @@
     "extensions",
     "skills",
     "agents",
-    "AGENTS.md",
-    "!**/__pycache__",
-    "!**/*.pyc",
-    "!skills/**/tests"
+    "AGENTS.md"
   ],
   "engines": {
     "node": ">=18"
@@ -47,7 +44,6 @@
     "pretest": "npm run typecheck",
     "test": "node --experimental-strip-types --test tests/**/*.test.mjs",
     "typecheck": "tsc --noEmit",
-    "test:py": ".venv/bin/pytest skills/caveman-compress",
     "prepublishOnly": "npm test"
   },
   "devDependencies": {
