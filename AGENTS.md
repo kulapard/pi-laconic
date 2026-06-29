@@ -1,55 +1,25 @@
 # AGENTS.md — pi-caveman conventions
 
-Project memory for agents working in this repo. Non-obvious conventions only.
+Project memory. Non-obvious only.
 
 ## Architecture (do not rebuild)
 
-- `extensions/caveman.ts` is the Pi extension; `extensions/caveman-core.ts` holds
-  the pure, SDK-free logic (`normalizeMode`, `modeInstructions`, `VALID_MODES`,
-  the activation/deactivation regexes) so it is unit-testable without a fake SDK.
-- Mode state is **session-scoped**: stored via `pi.appendEntry("caveman-mode", …)`
-  and restored from `ctx.sessionManager.getBranch()` on `session_start`. A new
-  session always starts `off`. There is **no** cross-session config file or env var.
-- Activation = `before_agent_start` appends `modeInstructions(mode)` to the
-  system prompt. Statusline = `ctx.ui.setStatus("caveman", …)` guarded by `hasUI`.
-- The extension's `modeInstructions` injection is the **canonical** activator;
-  the `caveman` skill (`skills/caveman/SKILL.md`) is a standalone fallback for
-  hosts that load skills but not this extension. When both are active the model
-  may see both rule sets — mild, intentional redundancy. They are not
-  programmatically de-duped: skill loading is model-driven and the skill's prose
-  differs from `modeInstructions`, so there is no reliable text to match on.
-- Pi 0.80.2 has **no `agents/` subagent mechanism**. The `agents/cavecrew-*.md`
-  files are reference personas only and cavecrew is optional/out-of-scope.
+- `extensions/caveman.ts` = Pi extension. `extensions/caveman-core.ts` = pure SDK-free logic (`normalizeMode`, `modeInstructions`, `VALID_MODES`, regexes). Unit-testable without fake SDK.
+- Mode state **session-scoped**: `pi.appendEntry("caveman-mode", …)`, restored from `ctx.sessionManager.getBranch()` on `session_start`. New session always `off`. No cross-session config/env.
+- Activation = `before_agent_start` appends `modeInstructions(mode)`. Statusline = `ctx.ui.setStatus("caveman", …)` guarded by `hasUI`.
+- Extension `modeInstructions` = **canonical** activator. `skills/caveman/SKILL.md` = fallback for hosts loading skills but not extension. If both active, model sees both rule sets — intentional redundancy, no de-dupe.
+- Pi 0.80.2 has **no `agents/` subagent mechanism**. `agents/cavecrew-*.md` = reference personas only; cavecrew optional/out-of-scope.
 
 ## Invariants
 
-- **SDK import is `import type` only** in `extensions/*.ts`. The JS tests run via
-  `--experimental-strip-types`, which erases type-only imports, so no installed
-  SDK is needed at test time. A value import from `@earendil-works/pi-coding-agent`
-  would break the tests — `tests/extension.test.mjs` asserts this invariant.
-- **Verbatim preservation**: caveman-compress never alters code blocks, inline
-  code, URLs, file paths, commands, or exact error strings. The skill instructs
-  the agent to self-validate these against the original and, on any mismatch it
-  cannot fix, restore from the `.original` backup that was created during the
-  same invocation (stale backups are rejected before compression starts).
-- `caveman-compress` is **prompt-only**: the Pi agent performs the compression
-  with its own model and file tools, driven by `SKILL.md`. There is no Python and
-  no external model CLI; coverage is the doc-guard test `tests/compress-docs.test.mjs`.
+- **SDK import `import type` only** in `extensions/*.ts`. JS tests run via `--experimental-strip-types`, erases type-only imports. Value import from `@earendil-works/pi-coding-agent` breaks tests — `tests/extension.test.mjs` asserts this.
+- **Verbatim preservation**: caveman-compress never changes code blocks, inline code, URLs, paths, commands, exact error strings. Skill instructs self-validate against original. Mismatch unfixable → restore from `.original` backup created in same invocation (stale backups rejected before compression).
+- `caveman-compress` is **prompt-only**: Pi agent compresses with own model + file tools, driven by `SKILL.md`. No Python, no external model CLI. Coverage = `tests/compress-docs.test.mjs`.
 
 ## Changelog
 
-Every notable change must update `CHANGELOG.md` under `[Unreleased]`. Before
-finishing a task, run `npm run changelog:check` to confirm the changelog was
-updated for the files you changed. CI also runs this check on every pull
-request.
+Every notable change must update `CHANGELOG.md` under `[Unreleased]`. Before finishing task, run `npm run changelog:check` to confirm changelog updated for files changed. CI runs same check on every PR.
 
-- `npm test` runs `pretest` (`npm run typecheck` → `tsc --noEmit`) first, then the
-  `node --test` suites under `tests/`. Typecheck failures fail the test run.
-- The JS test glob (`tests/**/*.test.mjs`) is expanded by the Node `--test` runner,
-  not the shell. Directory-recursion (`--test tests/`) does **not** work on the
-  current Node — keep the glob.
-- Several tests are **phantom-reference guards** (`tests/stats-docs.test.mjs`,
-  `tests/cavecrew-docs.test.mjs`, `tests/compress-docs.test.mjs`): they assert the
-  docs do **not** mention a Claude-Code hooks layer, a plugin install path, the
-  `⛏` badge, Claude-only subagent presets, or broken asset paths. Do not
-  reintroduce those references.
+- `npm test` runs `pretest` (`npm run typecheck` → `tsc --noEmit`), then `node --test tests/**/*.test.mjs`. Typecheck failures fail test run.
+- Node `--test` glob expanded by runner, not shell. Directory-recursion `--test tests/` does **not** work on current Node — keep glob.
+- Tests are **phantom-reference guards** (`tests/stats-docs.test.mjs`, `tests/cavecrew-docs.test.mjs`, `tests/compress-docs.test.mjs`): docs must not mention Claude-Code hooks layer, plugin install path, `⛏` badge, Claude-only subagent presets, broken asset paths. Do not reintroduce.
