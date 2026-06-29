@@ -54,10 +54,12 @@ test("package.json declares ESM module type", () => {
 	assert.equal(pkg.type, "module");
 });
 
-test("package.json engines require Node >=18", () => {
+test("package.json engines require Node >=22.6.0", () => {
 	const pkg = readManifest();
 	assert.ok(pkg.engines, "engines block must exist");
-	assert.equal(pkg.engines.node, ">=18");
+	// The test/typecheck workflow runs `node --experimental-strip-types`, added
+	// in Node 22.6.0, so that is the real floor — not the older >=18.
+	assert.equal(pkg.engines.node, ">=22.6.0");
 });
 
 test("keywords include the pi-package marker", () => {

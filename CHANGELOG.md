@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `/caveman-help` card linked "Full docs" to the upstream `JuliusBrussee/caveman`
+  repo; now points to `kulapard/pi-caveman`.
+- `caveman-help` skill table was missing `/caveman-stats`, disagreeing with the
+  extension's own `HELP_TEXT`; added the row.
+- `ultra` mode was documented as "Tables over prose" in the README and help
+  card, contradicting the injected mode instructions; docs now match behavior
+  (abbreviate prose words, arrows for causality).
+- Input handler no longer throws when an input event arrives without `text`
+  (`event.text.trim()` → `(event.text ?? "").trim()`).
+- `caveman-compress` docs said the backup is always `FILE.original.md`, but the
+  skill preserves the source extension; corrected to `FILE.original.<ext>`.
+
+### Changed
+
+- `engines.node` floor raised from `>=18` to `>=22.6.0`, matching the
+  `node --experimental-strip-types` requirement of the test/typecheck workflow.
+- Natural-language activation now also triggers on `"be brief"` (added to
+  `ACTIVATION_RE`, the `caveman` skill description, and the README) so the
+  deterministic regex matches the advertised triggers.
+
 ## [0.2.0] - 2026-06-29
 
 ### Changed

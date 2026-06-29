@@ -23,7 +23,7 @@
     "CHANGELOG.md"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=22.6.0"
   },
   "keywords": [
     "pi-package",

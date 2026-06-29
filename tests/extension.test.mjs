@@ -116,6 +116,7 @@ test("ACTIVATION_RE matches documented activation phrases", () => {
 		"can we use less tokens",
 		"fewer tokens please",
 		"save tokens",
+		"please be brief",
 	]) {
 		assert.match(phrase, ACTIVATION_RE, `should activate: ${phrase}`);
 	}

@@ -67,7 +67,7 @@ session ends.
 |------|---------|--------|
 | **lite** | `/caveman lite` | Drop filler. Keep sentence structure. |
 | **full** | `/caveman` | Drop articles, filler, pleasantries, hedging. Fragments OK. Default. |
-| **ultra** | `/caveman ultra` | Extreme compression. Bare fragments. Tables over prose. |
+| **ultra** | `/caveman ultra` | Extreme compression. Bare fragments. Abbreviate prose words; arrows (X → Y). |
 | **wenyan-lite** | `/caveman wenyan-lite` | Classical Chinese (文言文) style, light compression. |
 | **wenyan-full** | `/caveman wenyan` | Full 文言文. Maximum classical terseness. |
 | **wenyan-ultra** | `/caveman wenyan-ultra` | Extreme classical terseness. |
@@ -91,7 +91,7 @@ You don't have to use a slash command. The extension watches your messages and
 switches mode on phrases like:
 
 - **Activate:** "caveman mode", "talk like caveman", "use caveman", "less
-  tokens", "fewer tokens", "save tokens" → enables **full** mode.
+  tokens", "fewer tokens", "save tokens", "be brief" → enables **full** mode.
 - **Deactivate:** "stop caveman", "normal mode", "disable caveman" → turns it
   off.
 
@@ -118,7 +118,7 @@ package — so it does not belong in this extension-plus-skills package.
 
 The Pi-side equivalent is the `caveman-compress` skill, invoked via the
 `/caveman-compress` command. It is prompt-only: the Pi agent itself compresses a
-prose memory file in place (writing a `FILE.original.md` backup) using its own
+prose memory file in place (writing a `FILE.original.<ext>` backup) using its own
 model and file tools, preserving code, URLs, and paths verbatim. No Python and no
 external Claude CLI are involved — compression is performed by the host Pi agent,
 the same way the other skills work.
