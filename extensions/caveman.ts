@@ -10,6 +10,7 @@ import {
 	normalizeMode,
 	type StoredMode,
 } from "./caveman-core.ts";
+import { loadProjectMode, saveProjectMode } from "./caveman-state.ts";
 
 const HELP_TEXT = `# Caveman for Pi
 
@@ -22,8 +23,9 @@ Commands:
 - /caveman-compress <file> — compress prose file via caveman-compress skill.
 - /caveman-stats — load stats skill/help.
 
-Mode persists in current Pi session and survives /reload via session state.
-Code, commands, API names, file paths, and exact errors stay verbatim.`;
+Mode persists across sessions in the same project via \`.pi/caveman-mode.json\`, and
+survives /reload via session state. Code, commands, API names, file paths, and
+exact errors stay verbatim.`;
 
 export default function cavemanExtension(pi: ExtensionAPI) {
 	let mode: StoredMode = "off";
@@ -40,7 +42,7 @@ export default function cavemanExtension(pi: ExtensionAPI) {
 	}
 
 	pi.on("session_start", (_event, ctx) => {
-		mode = "off";
+		mode = loadProjectMode(ctx.cwd) ?? "off";
 		for (const entry of ctx.sessionManager.getBranch() as Array<{
 			type?: string;
 			customType?: string;
@@ -73,6 +75,7 @@ export default function cavemanExtension(pi: ExtensionAPI) {
 				return;
 			}
 			persistMode(nextMode, ctx);
+			saveProjectMode(ctx.cwd, nextMode);
 			ctx.ui.notify(
 				nextMode === "off" ? "Caveman disabled" : `Caveman ${nextMode} enabled`,
 				"info",
@@ -137,9 +140,13 @@ export default function cavemanExtension(pi: ExtensionAPI) {
 		if (event.source !== "extension") {
 			const text = (event.text ?? "").trim();
 			if (DEACTIVATION_RE.test(text)) {
-				if (mode !== "off") persistMode("off", ctx);
+				if (mode !== "off") {
+					persistMode("off", ctx);
+					saveProjectMode(ctx.cwd, "off");
+				}
 			} else if (mode === "off" && ACTIVATION_RE.test(text)) {
 				persistMode("full", ctx);
+				saveProjectMode(ctx.cwd, "full");
 			}
 		}
 		return { action: "continue" as const };

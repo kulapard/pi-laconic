@@ -1,8 +1,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, mkdtempSync, rmSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { tmpdir } from "node:os";
 
 import {
 	normalizeMode,
@@ -12,6 +13,7 @@ import {
 	ACTIVATION_RE,
 	DEACTIVATION_RE,
 } from "../extensions/caveman-core.ts";
+import { loadProjectMode, saveProjectMode } from "../extensions/caveman-state.ts";
 import cavemanExtension from "../extensions/caveman.ts";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -192,11 +194,12 @@ function makeFakePi() {
 	return { pi, events, commands, appended, messages, userMessages };
 }
 
-function makeFakeCtx(branch = []) {
+function makeFakeCtx(branch = [], cwd = repoRoot) {
 	const notifications = [];
 	const statuses = [];
 	return {
 		ctx: {
+			cwd,
 			hasUI: true,
 			ui: {
 				setStatus(key, value) {
@@ -266,15 +269,19 @@ test("session_start: restores the LAST caveman-mode entry from the branch", asyn
 });
 
 test("session_start: resets to off when no caveman-mode entry exists", async () => {
+	// Use a temp cwd so a previously persisted project state does not leak in.
+	const tmp = mkdtempSync(join(tmpdir(), "pi-caveman-"));
 	const fake = makeFakePi();
 	cavemanExtension(fake.pi);
-	const { ctx } = makeFakeCtx([
-		{ type: "message", customType: undefined, data: {} },
-	]);
+	const { ctx } = makeFakeCtx(
+		[{ type: "message", customType: undefined, data: {} }],
+		tmp,
+	);
 	const handler = fake.events.get("session_start");
 	handler({}, ctx);
 	const beforeStart = fake.events.get("before_agent_start");
 	assert.equal(beforeStart({ systemPrompt: "SYS" }), undefined);
+	rmSync(tmp, { recursive: true, force: true });
 });
 
 test("/caveman: persists a valid mode and appends a session entry", async () => {
@@ -537,6 +544,54 @@ test("input handler: deactivation while already off does not persist a redundant
 		0,
 		"deactivation while off must not persist a redundant entry",
 	);
+});
+
+// --- type-only SDK import invariant ---
+
+test("session_start: falls back to project state when no caveman-mode entry exists", async () => {
+	const tmp = mkdtempSync(join(tmpdir(), "pi-caveman-"));
+	saveProjectMode(tmp, "ultra");
+	const fake = makeFakePi();
+	cavemanExtension(fake.pi);
+	const { ctx, statuses } = makeFakeCtx([], tmp);
+	const handler = fake.events.get("session_start");
+	handler({}, ctx);
+
+	const beforeStart = fake.events.get("before_agent_start");
+	const result = beforeStart({ systemPrompt: "SYS" });
+	assert.ok(
+		result.systemPrompt.includes("Intensity: ultra."),
+		"mode should be restored from project state",
+	);
+	assert.deepEqual(statuses.at(-1), { key: "caveman", value: "caveman:ultra" });
+	rmSync(tmp, { recursive: true, force: true });
+});
+
+test("session_start: session entry overrides project state", async () => {
+	const tmp = mkdtempSync(join(tmpdir(), "pi-caveman-"));
+	saveProjectMode(tmp, "ultra");
+	const fake = makeFakePi();
+	cavemanExtension(fake.pi);
+	const branch = [
+		{ type: "custom", customType: "caveman-mode", data: { mode: "lite" } },
+	];
+	const { ctx } = makeFakeCtx(branch, tmp);
+	const handler = fake.events.get("session_start");
+	handler({}, ctx);
+
+	const beforeStart = fake.events.get("before_agent_start");
+	const result = beforeStart({ systemPrompt: "SYS" });
+	assert.ok(
+		result.systemPrompt.includes("Intensity: lite."),
+		"session entry must override project state",
+	);
+	rmSync(tmp, { recursive: true, force: true });
+});
+
+test("loadProjectMode: returns undefined for missing or invalid state", () => {
+	const tmp = mkdtempSync(join(tmpdir(), "pi-caveman-"));
+	assert.equal(loadProjectMode(tmp), undefined, "missing state returns undefined");
+	rmSync(tmp, { recursive: true, force: true });
 });
 
 // --- type-only SDK import invariant ---

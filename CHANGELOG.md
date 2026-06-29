@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Caveman mode is now project-scoped: `.pi/caveman-mode.json` in the working
+  directory persists the mode across new sessions, while session entries still
+  override it for the current session. Falls back to `off` when no state exists.
+
 ## [0.4.2] - 2026-06-29
 
 ### Changed
