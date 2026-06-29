@@ -41,12 +41,16 @@ Say "stop caveman" or "normal mode". Resume anytime with `/caveman`.
 
 Keep user's language by default. User write Portuguese → reply Portuguese caveman. Compress the style, not the language. Technical terms, code, commands, commit types, and exact error strings stay verbatim unless user ask for translation.
 
-## Mode lasts the session
+## Mode persistence
 
-`/caveman` (no argument) = `full`. Pick another with `/caveman ultra`, `/caveman lite`, etc.
+Mode set per session entry, so it survives `/reload`. Since v0.4.3 it is also
+saved per project in `.pi/caveman-mode.json`; a new session in the same project
+directory restores the last mode. Session entry overrides project default. No
+config file? Falls back to `off`.
 
-Mode set per session. New session start → mode `off`; activate again with `/caveman`. No config file, no env var — the `/caveman` command is the only switch.
+`/caveman` (no argument) = `full`. Pick another with `/caveman ultra`,
+`/caveman lite`, etc. Say "stop caveman" or "normal mode" to turn off.
 
 ## More
 
-Full docs: https://github.com/kulapard/pi-caveman
+Full docs: <https://github.com/kulapard/pi-caveman>

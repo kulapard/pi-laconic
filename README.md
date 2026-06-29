@@ -105,18 +105,19 @@ switches mode on phrases like:
 - **Deactivate:** "stop caveman", "normal mode", "disable caveman" → turns it
   off.
 
-## Session-scoped behavior
+## Session and project-scoped behavior
 
-Mode state is **session-scoped**. It is stored as a session entry and restored
-across a `/reload` within the same session, but a **new session always starts
-with caveman off** — by design. There is no cross-session config file or global
-default that auto-enables it.
+Mode state is stored as a session entry, so it survives a `/reload` within the
+same session. Since v0.4.3 it is also persisted per project in
+`.pi/caveman-mode.json`, so a **new session in the same project directory**
+restores the last used mode. A session entry always overrides the project
+default, and a project without a state file falls back to `off`.
 
 ## Statusline indicator
 
 When a UI is attached, the statusline shows the active mode as
-`caveman:<mode>` (for example `caveman:ultra`). When caveman is off the indicator
-is cleared.
+`caveman:<mode>` (for example `caveman:ultra`), and appends live context usage
+as `ctx:XX%` when Pi provides it. When caveman is off the indicator is cleared.
 
 ## Compression vs. upstream MCP shrink
 
