@@ -32,9 +32,13 @@ automatically from CI, using npm **Trusted Publishing** (OIDC) — no long-lived
 - `name`: `pi-caveman` → `@kulapard/pi-caveman`
 - add `"publishConfig": { "access": "public" }` (scoped packages default to
   restricted; this keeps both the bootstrap and CI publishes public)
-- add `"files": ["extensions", "skills", "agents", "AGENTS.md"]` — tarball
-  whitelist (`package.json`, `README.md`, `LICENSE` are always included; tests,
-  `docs/`, `tsconfig.json` are excluded)
+- add `"files": ["extensions", "skills", "agents", "AGENTS.md",
+  "!**/__pycache__", "!**/*.pyc", "!skills/**/tests"]` — tarball whitelist
+  (`package.json`, `README.md`, `LICENSE` are always included; `docs/` and
+  `tsconfig.json` are excluded). The `!` negations prune Python dev test files
+  and bytecode that `skills/` would otherwise ship wholesale — npm bypasses
+  `.npmignore`/`.gitignore` under a `files` whitelist, so the exclusions must
+  live in `files` itself.
 - add `"repository"`, `"bugs"`, `"homepage"` pointing at
   `github.com/kulapard/pi-caveman`
 - add `"prepublishOnly": "npm test"` — gate every publish on typecheck + node
@@ -50,21 +54,29 @@ On push and pull_request to `master`: `actions/setup-node` (Node 24) →
 
 ### 3. `.github/workflows/publish.yml`
 
-Trigger: push of a tag matching `v*`.
+Trigger: push of a tag matching `v[0-9]*`.
 
 ```yaml
-permissions:
-  id-token: write   # OIDC for Trusted Publishing
-  contents: read
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    permissions:
+      id-token: write   # OIDC for Trusted Publishing
+      contents: read
 ```
 
-- `test` job: `npm ci` → `npm test`
-- `publish` job (needs `test`):
+Single `publish` job (no separate test job — `prepublishOnly: npm test`
+already gates every publish, including the manual bootstrap):
   - `actions/setup-node` with `node-version: 24` and
     `registry-url: https://registry.npmjs.org`
   - `npm install -g npm@latest` — guarantee npm >= 11.5.1
   - `npm ci`
-  - `npm publish`  — no token, no `--provenance`, OIDC + provenance automatic
+  - a "Verify tag matches package.json version" step — fails the run if the
+    pushed `vX.Y.Z` tag does not equal `package.json` `version`
+  - `npm publish` — no token, no `--provenance`, OIDC + provenance automatic
 
 No repository secrets are required.
 
@@ -80,7 +92,8 @@ No repository secrets are required.
 ### 5. `README.md`
 
 - remove the stale "there is no published origin remote" claim
-- add an npm install path: `pi install @kulapard/pi-caveman`
+- add an npm install path: `pi install npm:@kulapard/pi-caveman` (Pi requires
+  the `npm:` source prefix)
 - keep the `pi -e` mechanism documented (the README test asserts it)
 
 ## Manual steps (operator: kulapard)
@@ -101,3 +114,21 @@ No repository secrets are required.
 - No TS→JS compile/`dist` step (Pi consumes `.ts` directly).
 - No changelog/release-notes automation.
 - No multi-registry (GitHub Packages) publishing.
+
+## Post-review revisions (2026-06-29)
+
+A `/review` pass on PR #1 produced these changes, folded into the sections above:
+
+- **Install command:** `pi install @kulapard/pi-caveman` → `pi install
+  npm:@kulapard/pi-caveman` (the `npm:` source prefix is required by Pi).
+- **README wording:** softened from "is published to npm" to "Once the first
+  release is live" — the package does not exist on the registry until the
+  manual bootstrap publish.
+- **Tarball hygiene:** `files` gained `!` negations to drop `**/__pycache__`,
+  `**/*.pyc`, and `skills/**/tests` (287 kB/51 files → 94 kB/31 files).
+- **publish.yml:** dropped the redundant `test` job (the gate is
+  `prepublishOnly`), tightened the tag trigger to `v[0-9]*`, added a
+  tag==version guard step, and added a `concurrency` group.
+- **Workflow tests:** scoped the `id-token` assertion to the publish job and
+  added assertions for `registry-url`, the npm upgrade, `concurrency`, and the
+  version-guard step.

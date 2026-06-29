@@ -14,6 +14,7 @@
 - Ship TypeScript source — **no** compile/`dist` step. The `pi` block stays `"extensions": ["./extensions/caveman.ts"]`, `"skills": ["./skills"]`.
 - Publishes must be public: `publishConfig.access` = `"public"`.
 - Trusted Publishing: workflow needs `id-token: write`; **no** `NODE_AUTH_TOKEN`, **no** `secrets.NPM_TOKEN`, **no** `--provenance` flag (provenance is automatic). Requires npm CLI >= 11.5.1, Node >= 22.14 — CI uses Node 24 plus `npm install -g npm@latest`.
+- Publish tag trigger is `v[0-9]*`; the published tarball excludes dev test files via `files` `!` negations (see Task 1). (Both refined post-review — see "Post-review revisions" at the end.)
 - Tests use string `includes`/regex assertions only — do not add a YAML parser or any dependency.
 - Run the full suite with `npm test` (runs `pretest` → `tsc --noEmit`, then the node tests). Expected baseline: all green.
 - Commit messages end with the `Co-Authored-By` trailer used in this repo.
@@ -62,7 +63,7 @@ test("package.json carries public publish config", () => {
 test("files whitelist ships the extension, skills, and agents", () => {
 	const pkg = readManifest();
 	assert.ok(Array.isArray(pkg.files), "files must be an array");
-	for (const entry of ["extensions", "skills", "agents"]) {
+	for (const entry of ["extensions", "skills", "agents", "AGENTS.md"]) {
 		assert.ok(
 			pkg.files.includes(entry),
 			`files whitelist must include "${entry}"`,
@@ -111,7 +112,10 @@ Set `name` and add the publish fields. The top of the file becomes:
     "extensions",
     "skills",
     "agents",
-    "AGENTS.md"
+    "AGENTS.md",
+    "!**/__pycache__",
+    "!**/*.pyc",
+    "!skills/**/tests"
   ],
   "engines": {
     "node": ">=18"
@@ -186,12 +190,12 @@ load it from a checkout on disk.
 with:
 
 ```markdown
-pi-caveman is published to npm as
+pi-caveman publishes to npm as
 [`@kulapard/pi-caveman`](https://www.npmjs.com/package/@kulapard/pi-caveman).
-Install it into a Pi setup with:
+Once the first release is live, install it into a Pi setup with:
 
 ```bash
-pi install @kulapard/pi-caveman
+pi install npm:@kulapard/pi-caveman
 ```
 
 You can also load it straight from a checkout on disk (no install needed) — see
@@ -331,16 +335,29 @@ test("publish workflow exists", () => {
 test("publish workflow triggers on version tags and publishes", () => {
 	const pub = readWorkflow("publish.yml");
 	assert.match(pub, /tags:/, "must trigger on tags");
-	assert.match(pub, /v\*/, "must match v* tags");
+	assert.match(pub, /v\[0-9\]\*/, "must trigger on semver-style v tags");
 	assert.match(pub, /npm publish/, "must run npm publish");
+	assert.match(pub, /node-version:\s*['"]?24['"]?/, "publish must use Node 24");
+	assert.match(pub, /registry-url:/, "must set registry-url for OIDC token exchange");
+	assert.match(pub, /npm install -g npm@latest/, "must upgrade npm (>= 11.5.1)");
+});
+
+test("publish workflow guards against mismatched and duplicate publishes", () => {
+	const pub = readWorkflow("publish.yml");
+	assert.match(pub, /concurrency:/, "must declare a concurrency group");
+	assert.match(
+		pub,
+		/Verify tag matches package\.json version/,
+		"must verify the tag matches package.json version before publishing",
+	);
 });
 
 test("publish workflow uses Trusted Publishing, not tokens", () => {
 	const pub = readWorkflow("publish.yml");
 	assert.match(
 		pub,
-		/id-token:\s*write/,
-		"must request the OIDC id-token permission",
+		/publish:[\s\S]*permissions:[\s\S]*id-token:\s*write/,
+		"id-token: write must be scoped to the publish job",
 	);
 	assert.doesNotMatch(
 		pub,
@@ -373,21 +390,14 @@ name: Publish
 on:
   push:
     tags:
-      - 'v*'
+      - 'v[0-9]*'
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-      - run: npm ci
-      - run: npm test
-
   publish:
-    needs: test
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -400,6 +410,16 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: npm install -g npm@latest
       - run: npm ci
+      - name: Verify tag matches package.json version
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG="$(node -p "require('./package.json').version")"
+          if [ "$TAG" != "$PKG" ]; then
+            echo "::error::tag v$TAG does not match package.json version $PKG"
+            exit 1
+          fi
+      # `npm publish` runs prepublishOnly (npm test) as the gate — no separate
+      # test job needed.
       - run: npm publish
 ```
 
@@ -443,3 +463,29 @@ These are **not** code tasks — they happen on npmjs.com and the local machine,
 **Placeholder scan:** No TBD/TODO; every code and YAML block is complete; every command has expected output.
 
 **Type/name consistency:** `@kulapard/pi-caveman`, `publishConfig.access`, `files` entries (`extensions`/`skills`/`agents`), `prepublishOnly` = `npm test`, `readWorkflow(name)` helper (defined Task 3, reused Task 4), workflow filenames `ci.yml`/`publish.yml` — all consistent across tasks.
+
+---
+
+## Post-review revisions (2026-06-29)
+
+A `/review` pass on PR #1 surfaced 8 findings; the fixes are folded into the
+task blocks above so a re-run reproduces the final state, not the pre-review
+version:
+
+- **Install command** (Task 2): `pi install @kulapard/pi-caveman` →
+  `pi install npm:@kulapard/pi-caveman`. Pi requires the `npm:` source prefix;
+  the bare form fails. README wording also softened to "Once the first release
+  is live" since the package 404s until the manual bootstrap publish.
+- **Tarball hygiene** (Task 1): `files` gained `!**/__pycache__`, `!**/*.pyc`,
+  `!skills/**/tests`. npm bypasses `.npmignore`/`.gitignore` when a `files`
+  whitelist is set, so the exclusions must live in `files`. Result: 287 kB/51
+  files → 94 kB/31 files.
+- **publish.yml** (Task 4): dropped the redundant `test` job — `prepublishOnly:
+  npm test` already gates every publish (CI and the manual bootstrap), so the
+  gate is covered by Task 1's `prepublishOnly` assertion rather than a
+  `needs: test` check. Tag trigger tightened to `v[0-9]*`; added a tag==version
+  guard step and a `concurrency` group.
+- **Workflow tests** (Task 4): `id-token` assertion scoped to the publish job;
+  added assertions for `registry-url`, the npm upgrade, `concurrency`, and the
+  version-guard step.
+- **Manifest test** (Task 1): the `files` loop now also asserts `AGENTS.md`.
