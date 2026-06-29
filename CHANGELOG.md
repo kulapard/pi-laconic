@@ -7,9 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.2] - 2026-06-29
+
 ### Changed
 
 - Compressed `AGENTS.md` with `caveman-compress` to reduce session token load.
+- Added `*.original` and `*.original.*` to `.gitignore` so caveman-compress
+  backups are not committed accidentally.
 
 ## [0.4.1] - 2026-06-29
 
@@ -108,7 +112,8 @@ port of [caveman](https://github.com/JuliusBrussee/caveman).
   token, automatic provenance, a tag-equals-version guard, and a concurrency
   group).
 
-[Unreleased]: https://github.com/kulapard/pi-caveman/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/kulapard/pi-caveman/compare/v0.4.2...HEAD
+[0.4.2]: https://github.com/kulapard/pi-caveman/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/kulapard/pi-caveman/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/kulapard/pi-caveman/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/kulapard/pi-caveman/compare/v0.2.0...v0.3.0
