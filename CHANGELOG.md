@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Re-compressed `AGENTS.md` with `/caveman-compress --force` to reduce session token load.
+
 ## [0.5.0] - 2026-06-29
 
 ### Added

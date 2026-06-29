@@ -5,11 +5,7 @@ Project memory. Non-obvious only.
 ## Architecture (do not rebuild)
 
 - `extensions/caveman.ts` = Pi extension. `extensions/caveman-core.ts` = pure SDK-free logic (`normalizeMode`, `modeInstructions`, `VALID_MODES`, regexes). Unit-testable without fake SDK.
-- Mode state **session + project-scoped**: `pi.appendEntry("caveman-mode", …)`
-  restores from `ctx.sessionManager.getBranch()` on `session_start`; since
-  v0.4.3 `extensions/caveman-state.ts` also reads/writes `.pi/caveman-mode.json`
-  in the project directory. A session entry overrides the project default; a
-  project without a state file falls back to `off`. No global/env default.
+- Mode state **session + project-scoped**: `pi.appendEntry("caveman-mode", …)` restores from `ctx.sessionManager.getBranch()` on `session_start`; since v0.4.3 `extensions/caveman-state.ts` also reads/writes `.pi/caveman-mode.json`. Session entry overrides project default; missing state file → `off`. No global/env default.
 - Activation = `before_agent_start` appends `modeInstructions(mode)`. Statusline = `ctx.ui.setStatus("caveman", …)` guarded by `hasUI`.
 - Extension `modeInstructions` = **canonical** activator. `skills/caveman/SKILL.md` = fallback for hosts loading skills but not extension. Both active → model sees both rule sets; intentional redundancy, no de-dupe.
 - Pi 0.80.2 has **no `agents/` subagent mechanism**. `agents/cavecrew-*.md` = reference personas only; cavecrew optional/out-of-scope.
