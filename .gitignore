@@ -10,3 +10,6 @@ __pycache__/
 # caveman-compress backups
 *.original
 *.original.*
+
+# project-scoped caveman mode state
+.pi/caveman-mode.json

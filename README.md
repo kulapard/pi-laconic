@@ -116,8 +116,7 @@ default, and a project without a state file falls back to `off`.
 ## Statusline indicator
 
 When a UI is attached, the statusline shows the active mode as
-`caveman:<mode>` (for example `caveman:ultra`), and appends live context usage
-as `ctx:XX%` when Pi provides it. When caveman is off the indicator is cleared.
+`caveman:<mode>` (for example `caveman:ultra`). When caveman is off the indicator is cleared.
 
 ## Compression vs. upstream MCP shrink
 
