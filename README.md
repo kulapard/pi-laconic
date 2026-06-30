@@ -201,10 +201,22 @@ Generate a commit message:
 /laconic-commit add JWT guard to login route
 ```
 
+Output:
+
+```text
+fix(auth): guard login route with JWT
+```
+
 Review a PR scope:
 
 ```bash
 /laconic-review src/middleware/auth.ts
+```
+
+Output:
+
+```text
+src/middleware/auth.ts:L42: 🔴 bug: no JWT guard. Validate before next().
 ```
 
 ## Natural-language activation
