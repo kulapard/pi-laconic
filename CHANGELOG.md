@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   explanation.
 - Added `assets` to the npm package files whitelist so the README logo ships
   with the package.
+- Updated changelog compare links for `v1.0.4`.
 
 ## [1.0.4] - 2026-06-30
 
@@ -267,7 +268,8 @@ inspired by [caveman](https://github.com/JuliusBrussee/caveman).
   token, automatic provenance, a tag-equals-version guard, and a concurrency
   group).
 
-[Unreleased]: https://github.com/kulapard/pi-laconic/compare/v1.0.3...HEAD
+[Unreleased]: https://github.com/kulapard/pi-laconic/compare/v1.0.4...HEAD
+[1.0.4]: https://github.com/kulapard/pi-laconic/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/kulapard/pi-laconic/compare/v1.0.2...v1.0.3
 [0.9.0]: https://github.com/kulapard/pi-laconic/compare/v0.7.0...v0.9.0
 [0.7.0]: https://github.com/kulapard/pi-laconic/compare/v0.6.0...v0.7.0
