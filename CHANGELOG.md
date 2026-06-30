@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   "Compression" and removed the paragraph comparing upstream `caveman-shrink`
   MCP middleware, keeping only the description of the `laconic-compress`
   skill.
+- README: removed the "no external Claude CLI" comparison from the
+  Compression section; now describes `laconic-compress` on its own terms.
 
 ### Fixed
 

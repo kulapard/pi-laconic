@@ -236,9 +236,8 @@ When a UI is attached, the statusline shows the active mode as
 The `laconic-compress` skill is invoked via the `/laconic-compress` command. It
 is prompt-only: the Pi agent itself compresses a prose memory file in place
 (writing a `FILE.original.<ext>` backup) using its own model and file tools,
-preserving code, URLs, and paths verbatim. No Python and no external Claude CLI
-are involved — compression is performed by the host Pi agent, the same way the
-other skills work.
+preserving code, URLs, and paths verbatim. Compression is performed by the
+host Pi agent itself, the same way the other skills work.
 
 ## Attribution & license
 
