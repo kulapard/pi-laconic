@@ -7,7 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.1] - 2026-06-30
+## [1.0.2] - 2026-06-30
+
+### Changed
+
+- README: renamed the "Compression vs. upstream MCP shrink" section to
+  "Compression" and removed the paragraph comparing upstream `caveman-shrink`
+  MCP middleware, keeping only the description of the `laconic-compress`
+  skill.
 
 ### Fixed
 
@@ -214,8 +221,8 @@ inspired by [caveman](https://github.com/JuliusBrussee/caveman).
   token, automatic provenance, a tag-equals-version guard, and a concurrency
   group).
 
-[Unreleased]: https://github.com/kulapard/pi-laconic/compare/v1.0.1...HEAD
-[1.0.1]: https://github.com/kulapard/pi-laconic/compare/v1.0.0...v1.0.1
+[Unreleased]: https://github.com/kulapard/pi-laconic/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/kulapard/pi-laconic/compare/v1.0.1...v1.0.2
 [0.9.0]: https://github.com/kulapard/pi-laconic/compare/v0.7.0...v0.9.0
 [0.7.0]: https://github.com/kulapard/pi-laconic/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/kulapard/pi-laconic/compare/v0.5.0...v0.6.0

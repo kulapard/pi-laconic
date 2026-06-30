@@ -231,20 +231,14 @@ file falls back to `off`.
 When a UI is attached, the statusline shows the active mode as
 `laconic:<mode>` (for example `laconic:high`). When laconic is off the indicator is cleared.
 
-## Compression vs. upstream MCP shrink
+## Compression
 
-Upstream caveman ships a `caveman-shrink` **MCP middleware** — a stdio proxy that
-sits between an MCP client and an upstream MCP server and compresses the server's
-tool descriptions. pi-laconic does **not** bundle it: that proxy works at the
-MCP-client layer, independent of Pi, and upstream itself ships it as a separate
-package — so it does not belong in this extension-plus-skills package.
-
-The Pi-side equivalent is the `laconic-compress` skill, invoked via the
-`/laconic-compress` command. It is prompt-only: the Pi agent itself compresses a
-prose memory file in place (writing a `FILE.original.<ext>` backup) using its own
-model and file tools, preserving code, URLs, and paths verbatim. No Python and no
-external Claude CLI are involved — compression is performed by the host Pi agent,
-the same way the other skills work.
+The `laconic-compress` skill is invoked via the `/laconic-compress` command. It
+is prompt-only: the Pi agent itself compresses a prose memory file in place
+(writing a `FILE.original.<ext>` backup) using its own model and file tools,
+preserving code, URLs, and paths verbatim. No Python and no external Claude CLI
+are involved — compression is performed by the host Pi agent, the same way the
+other skills work.
 
 ## Attribution & license
 
