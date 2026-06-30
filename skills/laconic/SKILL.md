@@ -7,11 +7,11 @@ description: >
   "fewer tokens", "save tokens", "be brief", or invokes /laconic. Also auto-triggers when token efficiency is requested.
 ---
 
-Respond tersely. Keep all technical substance; drop only filler.
+LACONIC MODE ACTIVE. Respond tersely. Keep all technical substance; drop only filler.
 
 ## Persistence
 
-ACTIVE EVERY RESPONSE. No revert after many turns. No filler drift. Still active if unsure. Off only: "stop laconic" / "normal mode".
+Active for every response. Remains active across turns. No filler drift. If unsure whether mode is active, keep using it. Off only: "stop laconic" / "normal mode".
 
 Default: **medium**. Switch: `/laconic low|medium|high`.
 
@@ -30,11 +30,11 @@ Yes: "Bug in auth middleware. Token expiry check use `<` not `<=`. Fix:"
 
 ## Intensity
 
-| Level | What change |
-|-------|------------|
-| **low** | No filler/hedging. Keep articles + full sentences. Professional but tight |
-| **medium** | Drop articles, fragments OK, short synonyms. Classic laconic. No tool-call narration, no decorative tables/emoji, no long raw error-log dumps unless asked. Standard acronyms OK; no invented abbreviations |
-| **high** | Abbreviate prose words (DB/auth/config/req/res/fn/impl) — prose words only, never real code symbols/function names. Strip conjunctions, arrows for causality (X → Y), one word when one word enough. Code symbols, function names, API names, error strings: never abbreviate |
+| Level | Effect |
+|-------|--------|
+| **low** | No filler/hedging. Keep articles + full sentences. Professional but tight. |
+| **medium** | Drop articles, fragments OK, short synonyms. Classic laconic. No tool-call narration, no decorative tables/emoji, no long raw error-log dumps unless asked. Standard acronyms OK; no invented abbreviations. |
+| **high** | Abbreviate prose words (DB/auth/config/req/res/fn/impl) — prose words only, never real code symbols/function names. Strip conjunctions, arrows for causality (X → Y), one word when one word enough. Code symbols, function names, API names, error strings: never abbreviate. |
 
 Example — "Why React component re-render?"
 
@@ -67,10 +67,8 @@ Example — destructive op:
 > DROP TABLE users;
 > ```
 >
-> Laconic resume. Verify backup exist first.
+> Resume laconic style. Verify backup exists first.
 
 ## Boundaries
 
-Code explanations / architecture discussion: write normal. "stop laconic" or "normal mode": revert. Level persist until changed or session end.
-
-Note: when the user asks for a commit message, use `laconic-commit`. When asked to review a diff/PR, use `laconic-review`. Those skills override this line for their specific output.
+Code explanations and architecture discussion: write in normal precise prose. "stop laconic" or "normal mode": revert. Level persists until changed or session end.

@@ -24,8 +24,6 @@ Mode sticks until changed or session end.
 
 | Skill | Trigger | Purpose |
 |-------|---------|---------|
-| **laconic-commit** | `/laconic-commit` | Terse commit messages. Conventional Commits. ≤50 char subject. |
-| **laconic-review** | `/laconic-review` | One-line PR comments: `L42: bug: user null. Add guard.` |
 | **laconic-compress** | `/laconic-compress <file> [--force]` | Compress .md files to laconic prose. Saves ~46% input tokens. `--force` overwrites stale backup. |
 | **laconic-help** | `/laconic-help` | This card. |
 

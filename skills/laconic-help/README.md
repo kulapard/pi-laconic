@@ -29,9 +29,8 @@ Modes:
   /laconic high         extreme
 
 Skills:
-  /laconic-commit       terse Conventional Commits
-  /laconic-review       one-line PR comments
   /laconic-compress     compress memory files
+  /laconic-help         this reference
 
 Deactivate:
   "stop laconic" or "normal mode"
