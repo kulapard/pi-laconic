@@ -1,15 +1,15 @@
 # laconic
 
-Talk like smart laconic. Same brain, fewer tokens.
+Ultra-compressed communication style. Keep all technical substance; drop only filler.
 
 ## What it does
 
-Compress every model response to laconic-style prose. Drops articles, filler, pleasantries, and hedging. Keeps every technical detail, code block, error string, and symbol exact. Cuts ~65-75% of output tokens with full accuracy preserved. Mode persists for the whole session until changed or stopped.
+Compress model responses to terse laconic prose. Drops articles, filler, pleasantries, and hedging. Keeps every technical detail, code block, error string, and symbol exact. Cuts ~65-75% of output tokens while preserving full accuracy. Mode persists for the whole session until changed or stopped.
 
 Three intensity levels:
 
-| Level | What change |
-|-------|-------------|
+| Level | Effect |
+|-------|--------|
 | `low` | Drop filler/hedging. Sentences stay full. Professional but tight. |
 | `medium` | Default. Drop articles, fragments OK, short synonyms. |
 | `high` | Bare fragments. Abbreviations (DB, auth, fn). Arrows for causality. |
