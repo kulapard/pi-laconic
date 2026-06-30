@@ -147,7 +147,7 @@ Laconic cut that by ~46% on average. Same instructions. Same accuracy. Less wast
 
 ## Part of Laconic
 
-This skill ships with pi-laconic, a [Pi](https://github.com/earendil-works/pi-coding-agent) terse-output extension inspired by [caveman](https://github.com/JuliusBrussee/caveman) — making the agent use fewer tokens without losing accuracy.
+This skill ships with pi-laconic, a [Pi](https://github.com/earendil-works/pi) terse-output extension inspired by [caveman](https://github.com/JuliusBrussee/caveman) — making the agent use fewer tokens without losing accuracy.
 
 - **laconic** — make the agent *speak* like laconic (cuts response tokens ~65%)
 - **laconic-compress** — make the agent *read* less (cuts context tokens ~46%)

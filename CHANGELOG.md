@@ -14,6 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed remaining `pi-caveman` and `@kulapard/pi-caveman` references from
   `CHANGELOG.md` historical entries. Upstream `caveman` attribution preserved.
 
+### Fixed
+
+- README: corrected the `/laconic-compress` backup filename from `.original` to
+  `.original.<ext>` in the commands table, matching the skill (e.g. `AGENTS.md`
+  → `AGENTS.original.md`).
+- README: tightened the Compression section wording and removed redundant
+  phrasing in the Modes table.
+
 ## [1.0.3] - 2026-06-30
 
 ### Fixed
@@ -221,7 +229,7 @@ unchanged.
 
 ## [0.1.0] - 2026-06-29
 
-Initial release — a terse-output extension for [Pi](https://github.com/earendil-works/pi-coding-agent)
+Initial release — a terse-output extension for [Pi](https://github.com/earendil-works/pi)
 inspired by [caveman](https://github.com/JuliusBrussee/caveman).
 
 ### Added

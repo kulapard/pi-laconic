@@ -4,7 +4,7 @@
 [![license](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
 [![CI](https://github.com/kulapard/pi-laconic/actions/workflows/ci.yml/badge.svg)](https://github.com/kulapard/pi-laconic/actions/workflows/ci.yml)
 
-A [Pi](https://github.com/earendil-works/pi-coding-agent) terse-output extension
+A [Pi](https://github.com/earendil-works/pi) terse-output extension
 inspired by [caveman](https://github.com/JuliusBrussee/caveman). It makes the agent
 answer like a Spartan — compressed, laconic prose (drop articles, filler, and
 hedging; fragments over sentences) that cuts output tokens by roughly 65–75%
@@ -177,7 +177,7 @@ session ends.
 | Mode | Command | Effect |
 |------|---------|--------|
 | **low** | `/laconic low` | Drop filler. Keep sentence structure. |
-| **medium** | `/laconic` (default) | Drop articles, filler, pleasantries, hedging. Fragments OK. Default. |
+| **medium** | `/laconic` (default) | Drop articles, filler, pleasantries, hedging. Fragments OK. |
 | **high** | `/laconic high` | Extreme compression. Bare fragments. Abbreviate prose words; arrows (X → Y). |
 
 `/laconic off` disables terse mode.
@@ -190,7 +190,7 @@ session ends.
 | `/laconic-help` | Show the quick-reference card. |
 | `/laconic-commit [notes]` | Generate a terse Conventional Commit message. Does **not** commit. |
 | `/laconic-review [scope]` | One-line-per-finding code review comments. |
-| `/laconic-compress <file> [--force]` | Compress a prose memory file in place. `--force` overwrites an existing `.original` backup. |
+| `/laconic-compress <file> [--force]` | Rewrite a memory file (e.g. `CLAUDE.md`, `AGENTS.md`) in place, compressed. `--force` overwrites an existing `.original.<ext>` backup. |
 | `/laconic-stats` | Load the stats skill (an on-demand, model-driven estimate). |
 
 ## Command examples
@@ -234,14 +234,13 @@ When a UI is attached, the statusline shows the active mode as
 ## Compression
 
 The `laconic-compress` skill is invoked via the `/laconic-compress` command. It
-is prompt-only: the Pi agent itself compresses a prose memory file in place
+is prompt-only: the Pi agent itself compresses a memory file in place
 (writing a `FILE.original.<ext>` backup) using its own model and file tools,
-preserving code, URLs, and paths verbatim. Compression is performed by the
-host Pi agent itself, the same way the other skills work.
+preserving code, URLs, and paths verbatim — the same way the other skills work.
 
 ## Attribution & license
 
-pi-laconic is a terse-output extension for [Pi](https://github.com/earendil-works/pi-coding-agent)
+pi-laconic is a terse-output extension for [Pi](https://github.com/earendil-works/pi)
 inspired by [caveman](https://github.com/JuliusBrussee/caveman)
 by Julius Brussee. Licensed under the [MIT License](./LICENSE).
 See [CHANGELOG.md](./CHANGELOG.md) for release notes.
