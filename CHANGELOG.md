@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-06-30
+
+### Fixed
+
+- Replaced remaining `https://github.com/kulapard/pi-caveman/` repository URLs
+  and compare links in `CHANGELOG.md` with the current
+  `https://github.com/kulapard/pi-laconic/` URLs.
+
 ## [1.0.0] - 2026-06-30
 
 ### Changed (BREAKING)
@@ -114,7 +122,7 @@ unchanged.
 ### Changed
 
 - README install instructions now recommend `pi install
-  https://github.com/kulapard/pi-caveman` as the primary direct-load method,
+  https://github.com/kulapard/pi-laconic` as the primary direct-load method,
   keeping `pi -e` documented as a per-session fallback.
 
 ### Added
@@ -153,7 +161,7 @@ unchanged.
 ### Fixed
 
 - `/caveman-help` card linked "Full docs" to the upstream `JuliusBrussee/caveman`
-  repo; now points to `kulapard/pi-caveman`.
+  repo; now points to `kulapard/pi-laconic`.
 - `caveman-help` skill table was missing `/caveman-stats`, disagreeing with the
   extension's own `HELP_TEXT`; added the row.
 - `ultra` mode was documented as "Tables over prose" in the README and help
@@ -206,15 +214,15 @@ inspired by [caveman](https://github.com/JuliusBrussee/caveman).
   token, automatic provenance, a tag-equals-version guard, and a concurrency
   group).
 
-[Unreleased]: https://github.com/kulapard/pi-laconic/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/kulapard/pi-laconic/compare/v0.9.0...v1.0.0
+[Unreleased]: https://github.com/kulapard/pi-laconic/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/kulapard/pi-laconic/compare/v1.0.0...v1.0.1
 [0.9.0]: https://github.com/kulapard/pi-laconic/compare/v0.7.0...v0.9.0
-[0.7.0]: https://github.com/kulapard/pi-caveman/compare/v0.6.0...v0.7.0
-[0.6.0]: https://github.com/kulapard/pi-caveman/compare/v0.5.0...v0.6.0
-[0.5.0]: https://github.com/kulapard/pi-caveman/compare/v0.4.2...v0.5.0
-[0.4.2]: https://github.com/kulapard/pi-caveman/compare/v0.4.1...v0.4.2
-[0.4.1]: https://github.com/kulapard/pi-caveman/compare/v0.4.0...v0.4.1
-[0.4.0]: https://github.com/kulapard/pi-caveman/compare/v0.3.0...v0.4.0
-[0.3.0]: https://github.com/kulapard/pi-caveman/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/kulapard/pi-caveman/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/kulapard/pi-caveman/releases/tag/v0.1.0
+[0.7.0]: https://github.com/kulapard/pi-laconic/compare/v0.6.0...v0.7.0
+[0.6.0]: https://github.com/kulapard/pi-laconic/compare/v0.5.0...v0.6.0
+[0.5.0]: https://github.com/kulapard/pi-laconic/compare/v0.4.2...v0.5.0
+[0.4.2]: https://github.com/kulapard/pi-laconic/compare/v0.4.1...v0.4.2
+[0.4.1]: https://github.com/kulapard/pi-laconic/compare/v0.4.0...v0.4.1
+[0.4.0]: https://github.com/kulapard/pi-laconic/compare/v0.3.0...v0.4.0
+[0.3.0]: https://github.com/kulapard/pi-laconic/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/kulapard/pi-laconic/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/kulapard/pi-laconic/releases/tag/v0.1.0
