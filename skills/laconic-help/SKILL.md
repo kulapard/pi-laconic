@@ -12,18 +12,18 @@ Display this reference card when invoked. One-shot — do NOT change mode, write
 
 ## Modes
 
-| Mode | Trigger | What change |
-|------|---------|-------------|
-| **Low** | `/laconic low` | Drop filler. Keep sentence structure. |
-| **Medium** | `/laconic` (default) | Drop articles, filler, pleasantries, hedging. Fragments OK. Default. |
+| Mode | Trigger | Effect |
+|------|---------|--------|
+| **Low** | `/laconic low` | Drop filler and hedging. Keep full sentences and articles. |
+| **Medium** | `/laconic` (default) | Drop articles, filler, pleasantries, and hedging. Fragments OK. Default. |
 | **High** | `/laconic high` | Extreme compression. Bare fragments. Abbreviate prose words; arrows (X → Y). |
 
-Mode stick until changed or session end.
+Mode sticks until changed or session end.
 
 ## Skills
 
-| Skill | Trigger | What it do |
-|-------|---------|-----------|
+| Skill | Trigger | Purpose |
+|-------|---------|---------|
 | **laconic-commit** | `/laconic-commit` | Terse commit messages. Conventional Commits. ≤50 char subject. |
 | **laconic-review** | `/laconic-review` | One-line PR comments: `L42: bug: user null. Add guard.` |
 | **laconic-compress** | `/laconic-compress <file> [--force]` | Compress .md files to laconic prose. Saves ~46% input tokens. `--force` overwrites stale backup. |

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Polished laconic skill descriptions and help text: removed the
+  "smart laconic" persona phrasing, fixed ungrammatical wording, and made
+  mode/skill summaries clearer without changing behavior.
+
 ## [1.1.0] - 2026-06-30
 
 ### Removed

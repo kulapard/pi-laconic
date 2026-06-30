@@ -1,13 +1,13 @@
 ---
 name: laconic
 description: >
-  Ultra-compressed communication mode. Cuts token usage ~75% by speaking like laconic
-  while keeping full technical accuracy. Supports three intensity levels: low, medium (default), high.
+  Ultra-compressed communication style that preserves full technical accuracy while using fewer tokens.
+  Supports three intensity levels: low, medium (default), high.
   Use when user says "laconic mode", "talk like laconic", "use laconic", "less tokens",
   "fewer tokens", "save tokens", "be brief", or invokes /laconic. Also auto-triggers when token efficiency is requested.
 ---
 
-Respond terse like smart laconic. All technical substance stay. Only fluff die.
+Respond tersely. Keep all technical substance; drop only filler.
 
 ## Persistence
 

@@ -1,14 +1,13 @@
 ---
 name: laconic-compress
 description: >
-  Compress a prose/memory file (AGENTS.md, CLAUDE.md, README, todo lists) into
-  laconic style in place. Preserves code blocks, inline code, URLs, paths,
-  commands, and exact error strings verbatim. Writes a FILE.original.<ext> backup
-  before editing. Trigger: "/laconic-compress <file> [--force]". The --force flag
-  overwrites an existing backup instead of aborting.
+  Compress a prose/memory file (AGENTS.md, CLAUDE.md, README, todo lists) into terse laconic style in place.
+  Preserves code blocks, inline code, URLs, paths, commands, and exact error strings verbatim.
+  Writes a FILE.original.<ext> backup before editing. Trigger: "/laconic-compress <file> [--force]".
+  The --force flag overwrites an existing backup instead of aborting.
 ---
 
-Compress prose files in place. Keep all technical substance; remove filler, hedging, and redundant phrasing.
+Compress prose/memory files in place. Keep all technical substance; remove filler, hedging, and redundant phrasing.
 
 ## Scope
 
