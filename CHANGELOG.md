@@ -7,7 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.2] - 2026-06-30
+## [1.0.3] - 2026-06-30
+
+### Fixed
+
+- README: fixed `medium` → `maximum` in "maximum technical accuracy" and
+  "maximum meaning".
+- README: escaped the pipe in `/laconic [mode|off]` table cell by switching to
+  an HTML `<code>` element so it renders correctly.
+- README: simplified `/laconic-compress` command description to
+  "Compress a prose memory file in place." (removed redundant
+  "via the laconic-compress skill").
 
 ### Changed
 
@@ -223,8 +233,8 @@ inspired by [caveman](https://github.com/JuliusBrussee/caveman).
   token, automatic provenance, a tag-equals-version guard, and a concurrency
   group).
 
-[Unreleased]: https://github.com/kulapard/pi-laconic/compare/v1.0.2...HEAD
-[1.0.2]: https://github.com/kulapard/pi-laconic/compare/v1.0.1...v1.0.2
+[Unreleased]: https://github.com/kulapard/pi-laconic/compare/v1.0.3...HEAD
+[1.0.3]: https://github.com/kulapard/pi-laconic/compare/v1.0.2...v1.0.3
 [0.9.0]: https://github.com/kulapard/pi-laconic/compare/v0.7.0...v0.9.0
 [0.7.0]: https://github.com/kulapard/pi-laconic/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/kulapard/pi-laconic/compare/v0.5.0...v0.6.0

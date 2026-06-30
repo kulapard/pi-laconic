@@ -8,7 +8,7 @@ A [Pi](https://github.com/earendil-works/pi-coding-agent) terse-output extension
 inspired by [caveman](https://github.com/JuliusBrussee/caveman). It makes the agent
 answer like a Spartan — compressed, laconic prose (drop articles, filler, and
 hedging; fragments over sentences) that cuts output tokens by roughly 65–75%
-**while keeping medium technical accuracy**: code, commands, API names, file paths,
+**while keeping maximum technical accuracy**: code, commands, API names, file paths,
 and exact error strings are always preserved verbatim.
 
 pi-laconic ships as a Pi package: a single extension (`extensions/laconic.ts`)
@@ -28,7 +28,7 @@ The textbook example: Philip II of Macedon warned Sparta, "If I invade Laconia,
 I will raze your city to the ground." The Spartans answered with a single word —
 **"If."** Philip never invaded.
 
-That is the whole idea. `pi-laconic` makes your agent answer like a Spartan: medium
+That is the whole idea. `pi-laconic` makes your agent answer like a Spartan: maximum
 meaning, no wasted words. Code, commands, and exact strings stay verbatim — only
 the fluff is cut.
 
@@ -186,11 +186,11 @@ session ends.
 
 | Command | What it does |
 |---------|--------------|
-| `/laconic [mode\|off]` | Enable a mode for this session (or turn it off). |
+| <code>/laconic [mode|off]</code> | Enable a mode for this session (or turn it off). |
 | `/laconic-help` | Show the quick-reference card. |
 | `/laconic-commit [notes]` | Generate a terse Conventional Commit message. Does **not** commit. |
 | `/laconic-review [scope]` | One-line-per-finding code review comments. |
-| `/laconic-compress <file> [--force]` | Compress a prose file via the laconic-compress skill. `--force` overwrites an existing `.original` backup. |
+| `/laconic-compress <file> [--force]` | Compress a prose memory file in place. `--force` overwrites an existing `.original` backup. |
 | `/laconic-stats` | Load the stats skill (an on-demand, model-driven estimate). |
 
 ## Command examples
