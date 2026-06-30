@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Re-compressed `AGENTS.md` with `/laconic-compress --force` and removed the
+  "since v0.4.3" version qualifier.
+- Removed remaining `pi-caveman` and `@kulapard/pi-caveman` references from
+  `CHANGELOG.md` historical entries. Upstream `caveman` attribution preserved.
+
 ## [1.0.3] - 2026-06-30
 
 ### Fixed
@@ -30,9 +37,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Replaced remaining `https://github.com/kulapard/pi-caveman/` repository URLs
-  and compare links in `CHANGELOG.md` with the current
-  `https://github.com/kulapard/pi-laconic/` URLs.
+- Replaced remaining old repository URLs and compare links in `CHANGELOG.md`
+  with the current `https://github.com/kulapard/pi-laconic/` URLs.
 
 ## [1.0.0] - 2026-06-30
 
@@ -55,37 +61,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.9.0] - 2026-06-30
 
-Renamed the project from **pi-caveman** to **pi-laconic** (npm
-`@kulapard/pi-caveman` → unscoped `pi-laconic`). The compression behavior is
-unchanged; only the name, the voice framing, and all command/skill identifiers
-move. *Laconic* — terse Spartan speech — replaces the caveman metaphor.
+Established the project identity as **pi-laconic** (npm `pi-laconic`,
+unscoped). Earlier releases used a different name; the compression behavior is
+unchanged, only the name, voice framing, and command/skill identifiers now use
+laconic. *Laconic* — terse Spartan speech — frames the output mode.
 
 ### Changed (BREAKING)
 
-- Package renamed to unscoped `pi-laconic` (was scoped `@kulapard/pi-caveman`);
-  repository moved to `kulapard/pi-laconic` (old URLs redirect).
+- Package released as unscoped `pi-laconic`; repository at
+  `kulapard/pi-laconic`.
 - Commands renamed `/caveman*` → `/laconic*`: `/laconic`, `/laconic-help`,
   `/laconic-commit`, `/laconic-review`, `/laconic-compress`, `/laconic-stats`.
 - Skills renamed `caveman*` → `laconic*`; the `cavecrew` subagent suite is now
   `laconic-crew` (agents `laconic-builder`, `laconic-investigator`,
   `laconic-reviewer`).
-- Statusline indicator is now `laconic:<mode>` (was `caveman:<mode>`).
-- Mode voice reframed from "caveman" to Spartan/laconic; injected instructions
-  now read "Respond like a Spartan: maximum meaning, fewest words."
+- Statusline indicator is now `laconic:<mode>`.
+- Mode voice reframed to Spartan/laconic; injected instructions now read
+  "Respond like a Spartan: maximum meaning, fewest words."
 - Natural-language activation phrases updated: "laconic mode", "be laconic",
   "talk like a Spartan", "use laconic" (plus the unchanged generic "less/fewer/
   save tokens", "be brief"); deactivation "stop laconic", "disable laconic",
   "normal mode".
-- Project-scoped state moved to `.pi/laconic-mode.json` (was
-  `.pi/caveman-mode.json`); the session entry type is now `laconic-mode`.
+- Project-scoped state now uses `.pi/laconic-mode.json`; the session entry type
+  is now `laconic-mode`.
 
 ### Migration
 
-- No automatic migration: on upgrade, a previously persisted
-  `.pi/caveman-mode.json` is ignored and the mode resets to `off`. Re-enable
-  with `/laconic`. The old `/caveman*` commands and `caveman` triggers are gone.
-- The old npm package `@kulapard/pi-caveman` is deprecated in favor of
-  `pi-laconic`.
+- No automatic migration: on upgrade, previously persisted project-scoped
+  mode state files are ignored and the mode resets to `off`. Re-enable with
+  `/laconic`. The previous slash-command prefixes and natural-language triggers
+  are gone.
+- The previous npm package is deprecated in favor of `pi-laconic`.
 
 Attribution to upstream [caveman](https://github.com/JuliusBrussee/caveman) is
 unchanged.
@@ -226,8 +232,8 @@ inspired by [caveman](https://github.com/JuliusBrussee/caveman).
   statusline indicator.
 - Skills: `caveman`, `caveman-commit`, `caveman-review`, `caveman-help`,
   `caveman-stats`, `caveman-compress`, and the `cavecrew` subagent suite.
-- npm packaging as `@kulapard/pi-caveman` (scoped, public) with a `files`
-  whitelist, a `prepublishOnly` test gate, and repository metadata.
+- npm packaging under a scoped, public package name with a `files` whitelist,
+  a `prepublishOnly` test gate, and repository metadata.
 - GitHub Actions: `ci.yml` (test on push and pull requests) and `publish.yml`
   (publish to npm via Trusted Publishing / OIDC on `v[0-9]*` tags — no stored
   token, automatic provenance, a tag-equals-version guard, and a concurrency
