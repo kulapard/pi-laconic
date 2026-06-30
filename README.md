@@ -26,14 +26,14 @@ plus a set of skills under `skills/`.
 
 ### Normal
 
-> The browser is blocking the request because the response is missing CORS headers. In an Express app you can install the `cors` package and add `app.use(cors())` to allow all origins during development. For production, configure it with your actual origin instead of using the default wildcard.
+> In Python, if you modify a list while iterating over it with a `for` loop, you can skip elements or get unexpected results because the iterator's index shifts when items are removed. Instead, iterate over a copy of the list using `list(items)` or a list comprehension, then modify the original list afterward.
 
 </td>
 <td width="50%" valign="top">
 
 ### `/caveman`
 
-> CORS headers missing. Express: `npm i cors`, `app.use(cors())`. Production: set origin, no wildcard.
+> Don't mutate list while iterating. Index shifts → skipped items. Iterate copy: `for item in list(items):`. Or use list comprehension.
 
 </td>
 </tr>
@@ -42,14 +42,14 @@ plus a set of skills under `skills/`.
 
 ### Normal
 
-> Sure! I'd be happy to help you with that. The issue you're experiencing is most likely caused by your authentication middleware not properly validating the token expiry. Let me take a look and suggest a fix.
+> To reduce your Docker image size, use a multi-stage build. Start with a builder stage that compiles your application, then copy only the compiled artifacts into a smaller runtime image based on Alpine or Distroless. For example, `FROM node:20 AS builder`, then `COPY --from=builder /app/dist /app/dist` in the final stage.
 
 </td>
 <td valign="top">
 
 ### `/caveman`
 
-> Bug in auth middleware. Token expiry check use `<` not `<=`. Fix:
+> Multi-stage build → smaller image. Compile in `node:20 AS builder`. Copy artifacts to runtime image: `COPY --from=builder /app/dist /app/dist`.
 
 </td>
 </tr>
@@ -64,19 +64,33 @@ Portuguese, Spanish, French, or any other language stays in its own words.
 
 One scenario, three intensities.
 
-> **Prompt:** My React component re-renders every time the parent updates. Why?
+> **Prompt:** Why does my Python script fail with `UnboundLocalError`?
+
+<table>
+<tr>
+<td width="33%" valign="top">
 
 ### `/caveman lite`
 
-You're creating a new object reference on each render. When you pass an inline object as a prop, React sees a different object every time and re-renders the child. Use `useMemo` to memoize the object.
+You assigned a value to a variable inside a function after referencing it. In Python, any assignment in a function makes the variable local to that scope. To modify a variable from the outer scope, declare it with `nonlocal` or `global`, or pass it as an argument.
+
+</td>
+<td width="33%" valign="top">
 
 ### `/caveman full`
 
-New object ref each render. Inline object prop = new ref = re-render. Wrap in `useMemo`.
+Assignment inside function makes variable local. `UnboundLocalError` means outer var referenced before assignment. Use `nonlocal` for enclosing scope, `global` for module scope.
+
+</td>
+<td width="33%" valign="top">
 
 ### `/caveman ultra`
 
-New ref → re-render. Inline prop object. Wrap `useMemo`.
+Inner assignment → local var. `UnboundLocalError` = outer ref before local assignment. Use `nonlocal`/`global`.
+
+</td>
+</tr>
+</table>
 
 ## Install
 
