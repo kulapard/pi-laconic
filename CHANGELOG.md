@@ -20,8 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - README: fixed `medium` → `maximum` in "maximum technical accuracy" and
   "maximum meaning".
-- README: escaped the pipe in `/laconic [mode|off]` table cell by switching to
-  an HTML `<code>` element so it renders correctly.
+- README: escaped the pipe in `/laconic [mode|off]` table cell with the `&#124;`
+  HTML entity so the row renders in one cell instead of splitting.
 - README: simplified `/laconic-compress` command description to
   "Compress a prose memory file in place." (removed redundant
   "via the laconic-compress skill").

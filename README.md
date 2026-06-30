@@ -52,14 +52,14 @@ the fluff is cut.
 </td>
 </tr>
 <tr>
-<td valign="top">
+<td width="50%" valign="top">
 
 ### Normal
 
 > To reduce your Docker image size, use a multi-stage build. Start with a builder stage that compiles your application, then copy only the compiled artifacts into a smaller runtime image based on Alpine or Distroless. For example, `FROM node:20 AS builder`, then `COPY --from=builder /app/dist /app/dist` in the final stage.
 
 </td>
-<td valign="top">
+<td width="50%" valign="top">
 
 ### `/laconic`
 
@@ -186,7 +186,7 @@ session ends.
 
 | Command | What it does |
 |---------|--------------|
-| <code>/laconic [mode|off]</code> | Enable a mode for this session (or turn it off). |
+| <code>/laconic [mode&#124;off]</code> | Enable a mode for this session (or turn it off). |
 | `/laconic-help` | Show the quick-reference card. |
 | `/laconic-commit [notes]` | Generate a terse Conventional Commit message. Does **not** commit. |
 | `/laconic-review [scope]` | One-line-per-finding code review comments. |
