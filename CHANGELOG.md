@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-06-30
+
 ### Changed
 
 - Re-compressed `AGENTS.md` with `/laconic-compress --force` and removed the
@@ -16,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Pointed the Pi project link at `https://github.com/earendil-works/pi` in the
+  README, CHANGELOG, and laconic-compress skill README (the old
+  `/pi-coding-agent` repo URL returns 404). The npm package name
+  `@earendil-works/pi-coding-agent` is unchanged.
 - README: corrected the `/laconic-compress` backup filename from `.original` to
   `.original.<ext>` in the commands table, matching the skill (e.g. `AGENTS.md`
   → `AGENTS.original.md`).
