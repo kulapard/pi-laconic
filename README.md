@@ -1,5 +1,9 @@
 # pi-caveman
 
+[![npm version](https://img.shields.io/npm/v/@kulapard/pi-caveman)](https://www.npmjs.com/package/@kulapard/pi-caveman)
+[![license](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
+[![CI](https://github.com/kulapard/pi-caveman/actions/workflows/ci.yml/badge.svg)](https://github.com/kulapard/pi-caveman/actions/workflows/ci.yml)
+
 A [Pi](https://github.com/earendil-works/pi-coding-agent) port of
 [caveman](https://github.com/JuliusBrussee/caveman) — a terse-output mode for the
 Pi coding agent. It makes the agent speak in compressed "caveman" prose (drop
@@ -9,6 +13,10 @@ names, file paths, and exact error strings are always preserved verbatim.
 
 pi-caveman ships as a Pi package: a single extension (`extensions/caveman.ts`)
 plus a set of skills under `skills/`.
+
+> **Note:** the 65–75% token-savings figure is a model-driven estimate, not a
+> tracked meter. Pi does not expose per-turn token counts, so `/caveman-stats`
+> estimates on demand rather than reading a log.
 
 ## Before / after
 
@@ -48,6 +56,9 @@ plus a set of skills under `skills/`.
 </table>
 
 Same fix, fewer tokens. Code, commands, and exact strings stay verbatim.
+
+Caveman preserves your language — it compresses style, not the underlying tongue.
+Portuguese, Spanish, French, or any other language stays in its own words.
 
 ## Mode variants
 
@@ -125,6 +136,11 @@ npm install            # fetch the Pi SDK + TypeScript dev deps
 npm test               # typecheck + extension/manifest/docs unit tests
 ```
 
+## Quick start
+
+After installing, type `/caveman` in any Pi session. The statusline shows
+`caveman:full`. Say "normal mode" or run `/caveman off` to turn it off.
+
 ## Modes
 
 Six intensity modes (default **full**). A mode sticks until you change it or the
@@ -151,6 +167,20 @@ session ends.
 | `/caveman-review [scope]` | One-line-per-finding code review comments. |
 | `/caveman-compress <file> [--force]` | Compress a prose file via the caveman-compress skill. `--force` overwrites an existing `.original` backup. |
 | `/caveman-stats` | Load the stats skill (an on-demand, model-driven estimate). |
+
+## Command examples
+
+Generate a commit message:
+
+```bash
+/caveman-commit add JWT guard to login route
+```
+
+Review a PR scope:
+
+```bash
+/caveman-review src/middleware/auth.ts
+```
 
 ## Natural-language activation
 
@@ -194,3 +224,4 @@ the same way the other skills work.
 
 pi-caveman is a Pi port of [caveman](https://github.com/JuliusBrussee/caveman)
 by Julius Brussee. Licensed under the [MIT License](./LICENSE).
+See [CHANGELOG.md](./CHANGELOG.md) for release notes.

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- README improvements: added npm/license/CI badges, a quick-start section,
+  `/caveman-commit` and `/caveman-review` examples, a note that token savings
+  are model-driven estimates, a language-preservation note, and a CHANGELOG link.
+
 ## [0.6.0] - 2026-06-29
 
 ### Added
