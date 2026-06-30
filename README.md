@@ -10,6 +10,63 @@ names, file paths, and exact error strings are always preserved verbatim.
 pi-caveman ships as a Pi package: a single extension (`extensions/caveman.ts`)
 plus a set of skills under `skills/`.
 
+## Before / after
+
+<table>
+<tr>
+<td width="50%">
+
+### Normal
+
+> The browser is blocking the request because the response is missing CORS headers. In an Express app you can install the `cors` package and add `app.use(cors())` to allow all origins during development. For production, configure it with your actual origin instead of using the default wildcard.
+
+</td>
+<td width="50%">
+
+### `/caveman`
+
+> CORS headers missing. Express: `npm i cors`, `app.use(cors())`. Production: set origin, no wildcard.
+
+</td>
+</tr>
+<tr>
+<td>
+
+### Normal
+
+> Sure! I'd be happy to help you with that. The issue you're experiencing is most likely caused by your authentication middleware not properly validating the token expiry. Let me take a look and suggest a fix.
+
+</td>
+<td>
+
+### `/caveman`
+
+> Bug in auth middleware. Token expiry check use `<` not `<=`. Fix:
+
+</td>
+</tr>
+</table>
+
+Same fix, fewer tokens. Code, commands, and exact strings stay verbatim.
+
+## Mode variants
+
+One scenario, three intensities.
+
+> **Prompt:** My React component re-renders every time the parent updates. Why?
+
+### `/caveman lite`
+
+You're creating a new object reference on each render. When you pass an inline object as a prop, React sees a different object every time and re-renders the child. Use `useMemo` to memoize the object.
+
+### `/caveman full`
+
+New object ref each render. Inline object prop = new ref = re-render. Wrap in `useMemo`.
+
+### `/caveman ultra`
+
+New ref → re-render. Inline prop object. Wrap `useMemo`.
+
 ## Install
 
 pi-caveman is published to npm as
