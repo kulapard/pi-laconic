@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added plain-black Pi.dev-style pixel `assets/logo.svg` and
+  `assets/logo-mark.svg` using a Spartan lambda; README now displays the logo.
+
+### Changed
+
+- Reworked README header to match the centered upstream `caveman` layout:
+  icon, title, tagline, badges, and quick links.
+- Added `assets` to the npm package files whitelist so the README logo ships
+  with the package.
+
 ## [1.0.4] - 2026-06-30
 
 ### Changed

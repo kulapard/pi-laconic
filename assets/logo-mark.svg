@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-labelledby="title desc">
+  <title id="title">pi-laconic mark</title>
+  <desc id="desc">Pi.dev-style pixel Spartan lambda.</desc>
+  <path fill="#000" d="M282.65 165.29H400V282.65H282.65Z"/>
+  <path fill="#000" d="M400 165.29H517.36V282.65H400Z"/>
+  <path fill="#000" d="M282.65 282.65H400V400H282.65Z"/>
+  <path fill="#000" d="M400 282.65H517.36V400H400Z"/>
+  <path fill="#000" d="M165.29 400H282.65V517.36H165.29Z"/>
+  <path fill="#000" d="M517.36 400H634.72V517.36H517.36Z"/>
+  <path fill="#000" d="M165.29 517.36H282.65V634.72H165.29Z"/>
+  <path fill="#000" d="M517.36 517.36H634.72V634.72H517.36Z"/>
+</svg>

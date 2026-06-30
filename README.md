@@ -1,8 +1,22 @@
-# pi-laconic
+<p align="center">
+  <img src="./assets/logo-mark.svg" alt="pi-laconic logo: Pi.dev-style pixel Spartan lambda" width="120">
+</p>
 
-[![npm version](https://img.shields.io/npm/v/pi-laconic)](https://www.npmjs.com/package/pi-laconic)
-[![license](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
-[![CI](https://github.com/kulapard/pi-laconic/actions/workflows/ci.yml/badge.svg)](https://github.com/kulapard/pi-laconic/actions/workflows/ci.yml)
+<h1 align="center">pi-laconic</h1>
+
+<p align="center">
+  <strong>maximum meaning · fewest words</strong>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/pi-laconic"><img src="https://img.shields.io/npm/v/pi-laconic" alt="npm version"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="license: MIT"></a>
+  <a href="https://github.com/kulapard/pi-laconic/actions/workflows/ci.yml"><img src="https://github.com/kulapard/pi-laconic/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+</p>
+
+<p align="center"><a href="#examples">Examples</a> • <a href="#install">Install</a> • <a href="#quick-start">Quick start</a> • <a href="#commands">Commands</a> • <a href="#compression">Compression</a></p>
+
+---
 
 A [Pi](https://github.com/earendil-works/pi) terse-output extension
 inspired by [caveman](https://github.com/JuliusBrussee/caveman). It makes the agent
@@ -32,7 +46,7 @@ That is the whole idea. `pi-laconic` makes your agent answer like a Spartan: max
 meaning, no wasted words. Code, commands, and exact strings stay verbatim — only
 the fluff is cut.
 
-## Before / after
+## Examples
 
 <table>
 <tr>
