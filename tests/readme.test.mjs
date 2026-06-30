@@ -28,9 +28,9 @@ test("README documents the GitHub install URL", () => {
 	);
 });
 
-test("README lists the six intensity modes", () => {
+test("README lists the three intensity modes", () => {
 	const readme = readFileSync(readmePath, "utf8").toLowerCase();
-	for (const mode of ["lite", "full", "ultra", "wenyan"]) {
+	for (const mode of ["lite", "full", "ultra"]) {
 		assert.ok(readme.includes(mode), `README must mention the "${mode}" mode`);
 	}
 });

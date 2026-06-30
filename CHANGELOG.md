@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `/caveman-commit` and `/caveman-review` examples, a note that token savings
   are model-driven estimates, a language-preservation note, and a CHANGELOG link.
 
+### Removed
+
+- Dropped `wenyan-lite`, `wenyan-full`, and `wenyan-ultra` modes and the
+  `wenyan`/`classical` aliases. Only `lite`, `full`, and `ultra` remain.
+
 ## [0.6.0] - 2026-06-29
 
 ### Added

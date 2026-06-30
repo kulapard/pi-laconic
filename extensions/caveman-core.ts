@@ -4,37 +4,19 @@
 // types it ever needs MUST be imported as `import type` so --experimental-strip-types
 // can erase them.
 
-export type CavemanMode =
-	| "lite"
-	| "full"
-	| "ultra"
-	| "wenyan-lite"
-	| "wenyan-full"
-	| "wenyan-ultra";
+export type CavemanMode = "lite" | "full" | "ultra";
 
 export type StoredMode = CavemanMode | "off";
 
-export const VALID_MODES = new Set<CavemanMode>([
-	"lite",
-	"full",
-	"ultra",
-	"wenyan-lite",
-	"wenyan-full",
-	"wenyan-ultra",
-]);
+export const VALID_MODES = new Set<CavemanMode>(["lite", "full", "ultra"]);
 
-// Values offered as argument completions for /caveman: the six real modes plus
-// the `wenyan` alias (→ wenyan-full via normalizeMode) and `off`. These are what
-// a user may type, which is a superset of VALID_MODES, so it is kept as its own
-// list rather than derived from VALID_MODES.
+// Values offered as argument completions for /caveman: the three real modes plus
+// `off`. These are what a user may type, which is a superset of VALID_MODES, so it
+// is kept as its own list rather than derived from VALID_MODES.
 export const COMPLETION_VALUES: readonly string[] = [
 	"lite",
 	"full",
 	"ultra",
-	"wenyan",
-	"wenyan-lite",
-	"wenyan-full",
-	"wenyan-ultra",
 	"off",
 ];
 
@@ -47,7 +29,6 @@ export function normalizeMode(raw: string | undefined): StoredMode | undefined {
 		)
 	)
 		return "off";
-	if (value === "wenyan" || value === "classical") return "wenyan-full";
 	return VALID_MODES.has(value as CavemanMode)
 		? (value as CavemanMode)
 		: undefined;
@@ -78,12 +59,6 @@ Auto-clarity:
 		full: "Intensity: full. Drop articles; fragments OK; short synonyms. Classic caveman.",
 		ultra:
 			"Intensity: ultra. Bare fragments. Use arrows for causality. Abbreviate prose words only; never abbreviate real code symbols, function names, API names, or error strings.",
-		"wenyan-lite":
-			"Intensity: wenyan-lite. Semi-classical Chinese register when user writes Chinese; otherwise terse lite mode.",
-		"wenyan-full":
-			"Intensity: wenyan-full. Maximum classical Chinese terseness when user writes Chinese; otherwise terse full mode.",
-		"wenyan-ultra":
-			"Intensity: wenyan-ultra. Extreme classical Chinese compression when user writes Chinese; otherwise terse ultra mode.",
 	};
 
 	return `${base}\n\n${perMode[mode]}`;

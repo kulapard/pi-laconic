@@ -143,7 +143,7 @@ After installing, type `/caveman` in any Pi session. The statusline shows
 
 ## Modes
 
-Six intensity modes (default **full**). A mode sticks until you change it or the
+Three intensity modes (default **full**). A mode sticks until you change it or the
 session ends.
 
 | Mode | Command | Effect |
@@ -151,9 +151,6 @@ session ends.
 | **lite** | `/caveman lite` | Drop filler. Keep sentence structure. |
 | **full** | `/caveman` | Drop articles, filler, pleasantries, hedging. Fragments OK. Default. |
 | **ultra** | `/caveman ultra` | Extreme compression. Bare fragments. Abbreviate prose words; arrows (X → Y). |
-| **wenyan-lite** | `/caveman wenyan-lite` | Classical Chinese (文言文) style, light compression. |
-| **wenyan-full** | `/caveman wenyan` | Full 文言文. Maximum classical terseness. |
-| **wenyan-ultra** | `/caveman wenyan-ultra` | Extreme classical terseness. |
 
 `/caveman off` disables terse mode.
 

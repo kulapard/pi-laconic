@@ -15,7 +15,7 @@ import { loadProjectMode, saveProjectMode } from "./caveman-state.ts";
 const HELP_TEXT = `# Caveman for Pi
 
 Commands:
-- /caveman [lite|full|ultra|wenyan|wenyan-lite|wenyan-full|wenyan-ultra] — enable terse mode for this session.
+- /caveman [lite|full|ultra] — enable terse mode for this session.
 - /caveman off — disable terse mode.
 - /caveman-help — show this card.
 - /caveman-commit [notes] — generate Conventional Commit message. Does not commit.
@@ -60,7 +60,7 @@ export default function cavemanExtension(pi: ExtensionAPI) {
 	});
 
 	pi.registerCommand("caveman", {
-		description: "Enable caveman terse mode: lite, full, ultra, wenyan, or off",
+		description: "Enable caveman terse mode: lite, full, ultra, or off",
 		getArgumentCompletions: (prefix) => {
 			const normalizedPrefix = prefix.trim().toLowerCase();
 			const items = COMPLETION_VALUES.flatMap((value) =>

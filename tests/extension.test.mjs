@@ -22,14 +22,7 @@ import cavemanExtension from "../extensions/caveman.ts";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = join(__dirname, "..");
 
-const ALL_MODES = [
-	"lite",
-	"full",
-	"ultra",
-	"wenyan-lite",
-	"wenyan-full",
-	"wenyan-ultra",
-];
+const ALL_MODES = ["lite", "full", "ultra"];
 
 // --- normalizeMode mapping table ---
 
@@ -55,12 +48,6 @@ test("normalizeMode: off-like aliases -> off", async () => {
 	}
 });
 
-test("normalizeMode: wenyan / classical -> wenyan-full", async () => {
-	assert.equal(normalizeMode("wenyan"), "wenyan-full");
-	assert.equal(normalizeMode("classical"), "wenyan-full");
-	assert.equal(normalizeMode("  WENYAN "), "wenyan-full");
-});
-
 test("normalizeMode: each valid mode maps to itself", async () => {
 	for (const mode of ALL_MODES) {
 		assert.equal(normalizeMode(mode), mode, `mode=${mode}`);
@@ -69,17 +56,17 @@ test("normalizeMode: each valid mode maps to itself", async () => {
 });
 
 test("normalizeMode: garbage -> undefined", async () => {
-	for (const junk of ["banana", "lite-mode", "wenyan-mega", "123", "fullish"]) {
-		assert.equal(
-			normalizeMode(junk),
-			undefined,
-			`junk=${JSON.stringify(junk)}`,
-		);
-	}
+for (const junk of ["banana", "lite-mode", "wenyan-mega", "123", "fullish"]) {
+assert.equal(
+normalizeMode(junk),
+undefined,
+`junk=${JSON.stringify(junk)}`,
+);
+}
 });
 
-test("VALID_MODES contains exactly the six intensity modes", async () => {
-	assert.equal(VALID_MODES.size, 6);
+test("VALID_MODES contains exactly the three intensity modes", async () => {
+	assert.equal(VALID_MODES.size, 3);
 	for (const mode of ALL_MODES) {
 		assert.ok(VALID_MODES.has(mode), `VALID_MODES missing ${mode}`);
 	}
@@ -92,9 +79,6 @@ test("modeInstructions: contains the active banner and per-mode line for every m
 		lite: "Intensity: lite.",
 		full: "Intensity: full.",
 		ultra: "Intensity: ultra.",
-		"wenyan-lite": "Intensity: wenyan-lite.",
-		"wenyan-full": "Intensity: wenyan-full.",
-		"wenyan-ultra": "Intensity: wenyan-ultra.",
 	};
 	for (const mode of ALL_MODES) {
 		const text = modeInstructions(mode);
@@ -292,11 +276,11 @@ test("/caveman: persists a valid mode and appends a session entry", async () => 
 	cavemanExtension(fake.pi);
 	const { ctx, notifications } = makeFakeCtx();
 	const caveman = fake.commands.get("caveman");
-	await caveman.handler("wenyan", ctx);
+	await caveman.handler("ultra", ctx);
 
 	assert.equal(fake.appended.length, 1);
 	assert.equal(fake.appended[0].customType, "caveman-mode");
-	assert.equal(fake.appended[0].data.mode, "wenyan-full");
+	assert.equal(fake.appended[0].data.mode, "ultra");
 	assert.equal(notifications.at(-1).level, "info");
 });
 
@@ -457,11 +441,11 @@ test("getArgumentCompletions: filters mode list by prefix", async () => {
 	const fake = makeFakePi();
 	cavemanExtension(fake.pi);
 	const caveman = fake.commands.get("caveman");
-	const items = caveman.getArgumentCompletions("wen");
+	const items = caveman.getArgumentCompletions("ul");
 	assert.ok(Array.isArray(items));
 	assert.deepEqual(
 		items.map((i) => i.value),
-		["wenyan", "wenyan-lite", "wenyan-full", "wenyan-ultra"],
+		["ultra"],
 	);
 	// each item carries a matching label
 	for (const item of items) assert.equal(item.label, item.value);
@@ -472,7 +456,7 @@ test("getArgumentCompletions: empty prefix returns the full list", async () => {
 	cavemanExtension(fake.pi);
 	const caveman = fake.commands.get("caveman");
 	const items = caveman.getArgumentCompletions("");
-	assert.equal(items.length, COMPLETION_VALUES.length); // 6 modes + wenyan alias + off
+	assert.equal(items.length, COMPLETION_VALUES.length); // 3 modes + off
 	assert.ok(items.some((i) => i.value === "off"));
 	assert.ok(items.some((i) => i.value === "ultra"));
 });
