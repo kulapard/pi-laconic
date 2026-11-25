@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updated dev dependencies: `@earendil-works/pi-coding-agent` to `^1.6.1`,
+  `typescript` to `^7`. Clears all open npm audit advisories (undici,
+  brace-expansion, fast-xml-parser).
+- CI: bumped `actions/setup-node` to v7.
+
 ## [1.2.0] - 2026-11-26
 
 ### Added

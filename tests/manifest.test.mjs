@@ -92,7 +92,7 @@ test("devDependencies pin the Pi SDK and TypeScript", () => {
 	assert.ok(pkg.devDependencies, "devDependencies must exist");
 	assert.equal(
 		pkg.devDependencies["@earendil-works/pi-coding-agent"],
-		"^0.80.2",
+		"^1.6.1",
 	);
 	assert.match(
 		pkg.devDependencies.typescript,
