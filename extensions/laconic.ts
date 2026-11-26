@@ -10,7 +10,11 @@ import {
 	normalizeMode,
 	type StoredMode,
 } from "./laconic-core.ts";
-import { loadProjectMode, saveProjectMode } from "./laconic-state.ts";
+import {
+	loadGlobalMode,
+	loadProjectMode,
+	saveProjectMode,
+} from "./laconic-state.ts";
 
 const HELP_TEXT = `# Laconic for Pi
 
@@ -21,8 +25,9 @@ Commands:
 - /laconic-compress <file> [--force] — compress a prose memory file in place. --force overwrites an existing .original backup.
 
 Mode persists across sessions in the same project via \`.pi/laconic-mode.json\`, and
-survives /reload via session state. Code, commands, API names, file paths, and
-exact errors stay verbatim.`;
+survives /reload via session state. A global default in
+\`~/.pi/agent/laconic-mode.json\` applies when the project sets none. Code,
+commands, API names, file paths, and exact errors stay verbatim.`;
 
 export default function laconicExtension(pi: ExtensionAPI) {
 	let mode: StoredMode = "off";
@@ -39,7 +44,7 @@ export default function laconicExtension(pi: ExtensionAPI) {
 	}
 
 	pi.on("session_start", (_event, ctx) => {
-		mode = loadProjectMode(ctx.cwd) ?? "off";
+		mode = loadProjectMode(ctx.cwd) ?? loadGlobalMode() ?? "off";
 		for (const entry of ctx.sessionManager.getBranch() as Array<{
 			type?: string;
 			customType?: string;

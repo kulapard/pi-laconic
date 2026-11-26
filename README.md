@@ -29,6 +29,7 @@ error strings verbatim.
 - **Slash command**: `/laconic [mode|off]` toggles the mode for the session.
 - **Natural-language activation**: say "laconic mode", "be brief", "save tokens", etc. to switch on; "normal mode" to switch off.
 - **Session + project persistence**: mode survives `/reload` and is restored per project via `.pi/laconic-mode.json`.
+- **Global default**: `~/.pi/agent/laconic-mode.json` turns laconic on for every session.
 - **Statusline indicator**: shows `laconic:<mode>` when a UI is attached.
 - **Memory-file compression**: `/laconic-compress <file>` rewrites prose files in laconic style, preserving code, URLs, and paths.
 
@@ -217,7 +218,20 @@ Mode state is stored as a session entry, so it survives a `/reload` within the
 same session. It is also persisted per project in `.pi/laconic-mode.json`, so a
 **new session in the same project directory** restores the last used mode. A
 session entry always overrides the project default, and a project without a state
-file falls back to `off`.
+file falls back to the global default, then `off`.
+
+### Global default
+
+To enable laconic in every session, create `~/.pi/agent/laconic-mode.json`
+(`$PI_CODING_AGENT_DIR/laconic-mode.json` if you set that variable):
+
+```json
+{ "mode": "medium" }
+```
+
+Precedence: session entry → project `.pi/laconic-mode.json` → global file →
+`off`. Running `/laconic <mode|off>` writes the project file, so that project
+keeps its own choice afterwards.
 
 ## Statusline indicator
 

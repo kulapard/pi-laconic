@@ -8,7 +8,8 @@ Prints a cheat sheet of all laconic modes, sibling skills, deactivation
 triggers, and how mode persists: it is stored as a session entry (survives
 `/reload`), and since v0.4.3 it is also saved per project in
 `.pi/laconic-mode.json` (a new session in the same project directory restores
-the last mode). No config file? Falls back to `off`. One-shot display — does not
+the last mode). No project file? Falls back to the global default in
+`~/.pi/agent/laconic-mode.json`, then `off`. One-shot display — does not
 flip the active mode, write flag files, or persist anything. Use when you forget
 the slash commands.
 

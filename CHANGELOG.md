@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Global default mode: `~/.pi/agent/laconic-mode.json` (or
+  `$PI_CODING_AGENT_DIR/laconic-mode.json`) with `{"mode": "medium"}` enables
+  laconic in every session whose project has no `.pi/laconic-mode.json`.
+  Session entry → project file → global file → `off`. ([#8](https://github.com/kulapard/pi-laconic/issues/8))
+
 ## [1.1.1] - 2026-06-30
 
 ### Changed
