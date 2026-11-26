@@ -5,7 +5,7 @@ Project memory. Non-obvious only.
 ## Architecture (do not rebuild)
 
 - `extensions/laconic.ts` = Pi extension. SDK-free logic in `extensions/laconic-core.ts`: `normalizeMode`, `modeInstructions`, `VALID_MODES`, regexes. Testable without fake SDK.
-- Mode state **session + project-scoped**. `pi.appendEntry("laconic-mode", …)` restores from `ctx.sessionManager.getBranch()` on `session_start`; `extensions/laconic-state.ts` reads/writes `.pi/laconic-mode.json`. Session entry overrides project default; missing state file → `off`. No global/env default.
+- Mode state **session + project-scoped**. `pi.appendEntry("laconic-mode", …)` restores from `ctx.sessionManager.getBranch()` on `session_start`; `extensions/laconic-state.ts` reads/writes `.pi/laconic-mode.json`. Session entry overrides project default; missing project file → global `~/.pi/agent/laconic-mode.json` (`$PI_CODING_AGENT_DIR` honoured, read-only) → `off`.
 - `before_agent_start` appends `modeInstructions(mode)`. Statusline = `ctx.ui.setStatus("laconic", …)` guarded by `hasUI`.
 - Extension `modeInstructions` = **canonical** activator. `skills/laconic/SKILL.md` = fallback when extension not loaded. Both active → model sees both rule sets; intentional redundancy, no de-dupe.
 - Extension exposes `/laconic`, `/laconic-help`, and `/laconic-compress`. No packaged subagents. `agents/` directory, `laconic-crew`, `laconic-commit`, and `laconic-review` removed. Laconic mode still propagates to any subagent via `before_agent_start` when the extension is loaded.

@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync, mkdtempSync, rmSync } from "node:fs";
+import { readFileSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
@@ -14,6 +14,7 @@ import {
 	DEACTIVATION_RE,
 } from "../extensions/laconic-core.ts";
 import {
+	loadGlobalMode,
 	loadProjectMode,
 	saveProjectMode,
 } from "../extensions/laconic-state.ts";
@@ -23,6 +24,19 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = join(__dirname, "..");
 
 const ALL_MODES = ["low", "medium", "high"];
+
+const agentDir = mkdtempSync(join(tmpdir(), "pi-laconic-agent-"));
+process.env.PI_CODING_AGENT_DIR = agentDir;
+
+function withGlobalMode(mode, fn) {
+	const path = join(agentDir, "laconic-mode.json");
+	writeFileSync(path, JSON.stringify({ mode }));
+	try {
+		fn();
+	} finally {
+		rmSync(path, { force: true });
+	}
+}
 
 // --- normalizeMode mapping table ---
 
@@ -554,6 +568,48 @@ test("loadProjectMode: returns undefined for missing or invalid state", () => {
 		"missing state returns undefined",
 	);
 	rmSync(tmp, { recursive: true, force: true });
+});
+
+test("session_start: falls back to global default when project has no state", () => {
+	const tmp = mkdtempSync(join(tmpdir(), "pi-laconic-"));
+	withGlobalMode("high", () => {
+		const fake = makeFakePi();
+		laconicExtension(fake.pi);
+		const { ctx, statuses } = makeFakeCtx([], tmp);
+		fake.events.get("session_start")({}, ctx);
+
+		const result = fake.events.get("before_agent_start")({ systemPrompt: "SYS" });
+		assert.ok(result.systemPrompt.includes("Intensity: high."));
+		assert.deepEqual(statuses.at(-1), { key: "laconic", value: "laconic:high" });
+	});
+	rmSync(tmp, { recursive: true, force: true });
+});
+
+test("session_start: project state overrides global default", () => {
+	const tmp = mkdtempSync(join(tmpdir(), "pi-laconic-"));
+	saveProjectMode(tmp, "off");
+	withGlobalMode("high", () => {
+		const fake = makeFakePi();
+		laconicExtension(fake.pi);
+		const { ctx } = makeFakeCtx([], tmp);
+		fake.events.get("session_start")({}, ctx);
+
+		assert.equal(
+			fake.events.get("before_agent_start")({ systemPrompt: "SYS" }),
+			undefined,
+		);
+	});
+	rmSync(tmp, { recursive: true, force: true });
+});
+
+test("loadGlobalMode: reads agent dir file, undefined when missing or invalid", () => {
+	assert.equal(loadGlobalMode(), undefined);
+	withGlobalMode("low", () => assert.equal(loadGlobalMode(), "low"));
+	withGlobalMode("bogus", () => assert.equal(loadGlobalMode(), undefined));
+	const path = join(agentDir, "laconic-mode.json");
+	writeFileSync(path, "{not json");
+	assert.equal(loadGlobalMode(), undefined);
+	rmSync(path, { force: true });
 });
 
 // --- type-only SDK import invariant ---

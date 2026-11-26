@@ -40,7 +40,8 @@ Keep user's language by default. User write Portuguese → reply Portuguese laco
 Mode set per session entry, so it survives `/reload`. Since v0.4.3 it is also
 saved per project in `.pi/laconic-mode.json`; a new session in the same project
 directory restores the last mode. Session entry overrides project default. No
-config file? Falls back to `off`.
+project file? Falls back to global default `~/.pi/agent/laconic-mode.json`
+(`{"mode": "medium"}` enables laconic everywhere), then `off`.
 
 `/laconic` (no argument) = `medium`. Pick another with `/laconic high`,
 `/laconic low`, etc. Say "stop laconic" or "normal mode" to turn off.

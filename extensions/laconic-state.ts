@@ -3,6 +3,7 @@
 // (tracked upstream as pi-coding-agent issue #4981).
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { homedir } from "node:os";
 import { join } from "node:path";
 import { normalizeMode, type StoredMode } from "./laconic-core.ts";
 
@@ -13,13 +14,15 @@ function statePath(cwd: string): string {
 	return join(cwd, STATE_DIR, STATE_FILE);
 }
 
-/**
- * Load the project-scoped laconic mode default. Returns `undefined` when no
- * state file exists or it cannot be read, so the caller can fall back to the
- * session-scoped default (`off`).
- */
-export function loadProjectMode(cwd: string): StoredMode | undefined {
-	const path = statePath(cwd);
+// Mirrors getAgentDir() from the Pi SDK, which laconic.ts may import as types only.
+function agentDir(): string {
+	const dir = process.env.PI_CODING_AGENT_DIR;
+	if (!dir) return join(homedir(), STATE_DIR, "agent");
+	if (dir === "~") return homedir();
+	return dir.startsWith("~/") ? join(homedir(), dir.slice(2)) : dir;
+}
+
+function readMode(path: string): StoredMode | undefined {
 	if (!existsSync(path)) return undefined;
 	try {
 		const raw = JSON.parse(readFileSync(path, "utf8"));
@@ -27,6 +30,24 @@ export function loadProjectMode(cwd: string): StoredMode | undefined {
 	} catch {
 		return undefined;
 	}
+}
+
+/**
+ * Load the project-scoped laconic mode default. Returns `undefined` when no
+ * state file exists or it cannot be read, so the caller can fall back to the
+ * global default.
+ */
+export function loadProjectMode(cwd: string): StoredMode | undefined {
+	return readMode(statePath(cwd));
+}
+
+/**
+ * Load the user-wide laconic mode default from `<agent dir>/laconic-mode.json`
+ * (`~/.pi/agent` unless `PI_CODING_AGENT_DIR` is set). Used when neither the
+ * session nor the project sets a mode.
+ */
+export function loadGlobalMode(): StoredMode | undefined {
+	return readMode(join(agentDir(), STATE_FILE));
 }
 
 /**
