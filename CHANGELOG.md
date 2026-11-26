@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-11-26
+
 ### Changed
 
 - Updated dev dependencies: `@earendil-works/pi-coding-agent` to `^1.6.1`,
