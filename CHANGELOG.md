@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-26
+
 ### Added
 
 - Global default mode: `~/.pi/agent/laconic-mode.json` (or
@@ -303,7 +305,9 @@ inspired by [caveman](https://github.com/JuliusBrussee/caveman).
   token, automatic provenance, a tag-equals-version guard, and a concurrency
   group).
 
-[Unreleased]: https://github.com/kulapard/pi-laconic/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/kulapard/pi-laconic/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/kulapard/pi-laconic/compare/v1.1.1...v1.2.0
+[1.1.1]: https://github.com/kulapard/pi-laconic/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/kulapard/pi-laconic/compare/v1.0.6...v1.1.0
 [1.0.6]: https://github.com/kulapard/pi-laconic/compare/v1.0.5...v1.0.6
 [1.0.5]: https://github.com/kulapard/pi-laconic/compare/v1.0.4...v1.0.5
